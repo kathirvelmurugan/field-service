@@ -111,6 +111,57 @@
       </div>
     </div>
 
+    <!-- Auto-Play Walkthrough Interactive Controller Bar (Issue #7) -->
+    <div id="autoplay-controller" class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-sky-500/40 rounded-2xl p-4 shadow-2xl space-y-3">
+      <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3">
+        
+        <!-- Left: Status indicator & mode badge -->
+        <div class="flex items-center gap-3">
+          <span class="p-2 bg-sky-500/20 text-sky-400 rounded-xl text-lg animate-pulse">⚡</span>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-black text-white uppercase tracking-wider">Automated Walkthrough Mode</span>
+              <span id="ap-status-badge" class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold">Auto-Playing</span>
+            </div>
+            <div id="ap-step-label" class="text-xs text-sky-300 font-semibold mt-0.5">Stage 1 of 6: Pre-Departure Gate & Chemical Scan</div>
+          </div>
+        </div>
+
+        <!-- Middle: Playback buttons (Prev, Play/Pause, Next, Restart) -->
+        <div class="flex items-center gap-2">
+          <button onclick="autoPlayer.prev()" title="Previous Stage" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-bold transition-all flex items-center gap-1">
+            <span>⏮</span> Prev
+          </button>
+          
+          <button onclick="autoPlayer.togglePlay()" id="btn-ap-toggle" class="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-extrabold shadow-lg shadow-sky-500/20 flex items-center gap-1.5 transition-all">
+            <span id="ap-toggle-icon">⏸</span> <span id="ap-toggle-text">Pause</span>
+          </button>
+
+          <button onclick="autoPlayer.next()" title="Next Stage" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-bold transition-all flex items-center gap-1">
+            Next <span>⏭</span>
+          </button>
+
+          <button onclick="autoPlayer.restart()" title="Restart Walkthrough" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 text-xs font-bold transition-all flex items-center gap-1">
+            <span>↻</span> Reset
+          </button>
+        </div>
+
+        <!-- Right: Delay speed adjustments (1.0s, 1.5s, 3.0s) -->
+        <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 p-1.5 rounded-xl">
+          <span class="text-[11px] font-bold text-slate-400 px-1">Speed:</span>
+          <button onclick="autoPlayer.setDelay(1000)" id="btn-speed-1000" class="speed-btn px-2.5 py-1 rounded text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">1.0s</button>
+          <button onclick="autoPlayer.setDelay(1500)" id="btn-speed-1500" class="speed-btn px-2.5 py-1 rounded text-[11px] font-bold bg-sky-600 text-white shadow">1.5s</button>
+          <button onclick="autoPlayer.setDelay(3000)" id="btn-speed-3000" class="speed-btn px-2.5 py-1 rounded text-[11px] font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">3.0s</button>
+        </div>
+
+      </div>
+
+      <!-- Animated Progress Bar -->
+      <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+        <div id="ap-progress-bar" class="bg-gradient-to-r from-sky-400 via-amber-400 to-emerald-400 h-full w-0 transition-all duration-300"></div>
+      </div>
+    </div>
+
     <!-- Stepper Navigation Header (6 Stages) -->
     <nav class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 shadow-xl overflow-x-auto">
       <div class="flex items-center justify-between min-w-[760px] gap-2">
@@ -879,6 +930,10 @@
 
     function navToStep(stepNum) {
       state.step = stepNum;
+      if (typeof autoPlayer !== 'undefined') {
+        autoPlayer.currentStep = stepNum;
+        autoPlayer.updateUI();
+      }
 
       // Show/hide screen panels
       document.querySelectorAll('.stage-panel').forEach((panel, idx) => {
@@ -1057,9 +1112,156 @@
       alert("Exporting BIRR (Blade Inspection & Repair Report) PDF with cryptographic hash verification...");
     }
 
+    // Automated Walkthrough Controller (Issue #7)
+    const autoPlayer = {
+      isPlaying: true,
+      delayMs: 1500,
+      timerId: null,
+      currentStep: 1,
+      stageNames: [
+        "Stage 1 of 6: Pre-Departure Gate & Chemical Scan",
+        "Stage 2 of 6: On-Site Geofence, LOTO Lock & Wind Telemetry",
+        "Stage 3 of 6: Interactive 0-80m Blade Canvas & NDT Tap-Test",
+        "Stage 4 of 6: 50:1 Scarf Ratio & Thermal Curing Log",
+        "Stage 5 of 6: GE Site Lead Digital E-Signature & BIRR",
+        "Stage 6 of 6: Automated Twin-Stream (Payroll vs Invoicing)"
+      ],
+
+      init() {
+        this.updateUI();
+        this.scheduleNextTick();
+      },
+
+      updateUI() {
+        const icon = document.getElementById('ap-toggle-icon');
+        const text = document.getElementById('ap-toggle-text');
+        const badge = document.getElementById('ap-status-badge');
+        const label = document.getElementById('ap-step-label');
+        const progress = document.getElementById('ap-progress-bar');
+
+        if (label) label.innerText = this.stageNames[this.currentStep - 1] || "";
+        if (progress) {
+          const pct = ((this.currentStep) / 6) * 100;
+          progress.style.width = `${pct}%`;
+        }
+
+        if (this.isPlaying) {
+          if (icon) icon.innerText = "⏸";
+          if (text) text.innerText = "Pause";
+          if (badge) {
+            badge.innerText = `Auto-Playing (${(this.delayMs/1000).toFixed(1)}s)`;
+            badge.className = "text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold";
+          }
+        } else {
+          if (icon) icon.innerText = "▶";
+          if (text) text.innerText = "Run";
+          if (badge) {
+            badge.innerText = "Paused";
+            badge.className = "text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold";
+          }
+        }
+      },
+
+      scheduleNextTick() {
+        clearTimeout(this.timerId);
+        if (!this.isPlaying) return;
+
+        this.timerId = setTimeout(() => {
+          if (!this.isPlaying) return;
+
+          // 1. Simulate verified stage action
+          triggerSelectAllCurrentStage();
+
+          // 2. Advance step
+          if (this.currentStep < 6) {
+            this.currentStep++;
+            navToStep(this.currentStep);
+            this.updateUI();
+            this.scheduleNextTick();
+          } else {
+            this.pause();
+            const badge = document.getElementById('ap-status-badge');
+            if (badge) {
+              badge.innerText = "Completed (Reconciled)";
+              badge.className = "text-[10px] px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 font-bold";
+            }
+          }
+        }, this.delayMs);
+      },
+
+      togglePlay() {
+        if (this.isPlaying) {
+          this.pause();
+        } else {
+          if (this.currentStep >= 6) {
+            this.currentStep = 1;
+            navToStep(1);
+          }
+          this.isPlaying = true;
+          this.updateUI();
+          this.scheduleNextTick();
+        }
+      },
+
+      pause() {
+        this.isPlaying = false;
+        clearTimeout(this.timerId);
+        this.updateUI();
+      },
+
+      next() {
+        this.pause();
+        if (this.currentStep < 6) {
+          this.currentStep++;
+          navToStep(this.currentStep);
+          triggerSelectAllCurrentStage();
+          this.updateUI();
+        }
+      },
+
+      prev() {
+        this.pause();
+        if (this.currentStep > 1) {
+          this.currentStep--;
+          navToStep(this.currentStep);
+          this.updateUI();
+        }
+      },
+
+      restart() {
+        clearTimeout(this.timerId);
+        this.currentStep = 1;
+        navToStep(1);
+        this.isPlaying = true;
+        this.updateUI();
+        this.scheduleNextTick();
+      },
+
+      setDelay(ms) {
+        this.delayMs = ms;
+        document.querySelectorAll('.speed-btn').forEach(btn => {
+          btn.classList.remove('bg-sky-600', 'text-white', 'shadow');
+          btn.classList.add('bg-slate-800', 'text-slate-300');
+        });
+        const activeBtn = document.getElementById(`btn-speed-${ms}`);
+        if (activeBtn) {
+          activeBtn.classList.add('bg-sky-600', 'text-white', 'shadow');
+          activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
+        }
+        if (this.isPlaying) {
+          this.scheduleNextTick();
+        }
+        this.updateUI();
+      }
+    };
+
     // Auto-evaluate Step 1 on load
     window.addEventListener('DOMContentLoaded', () => {
       evaluateStageProgress(1);
+      // Auto-start walkthrough
+      setTimeout(() => {
+        autoPlayer.init();
+      }, 500);
     });
   </script>
 </body>
