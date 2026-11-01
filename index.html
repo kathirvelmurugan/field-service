@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windmill Blade Field Service - Flow & Twin-Stream Simulator</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      --background: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --foreground: #f8fafc;
+      --muted-foreground: #94a3b8;
+      --primary: #0284c7;
+      --primary-foreground: #ffffff;
+      --accent: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+    body {
+      background-color: var(--background);
+      color: var(--foreground);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .active-step {
+      border-color: #38bdf8 !important;
+      background: rgba(56, 189, 248, 0.15) !important;
+      color: #38bdf8 !important;
+    }
+    .completed-step {
+      border-color: #10b981 !important;
+      background: rgba(16, 185, 129, 0.1) !important;
+      color: #34d399 !important;
+    }
+  </style>
+</head>
+<body class="p-4 md:p-6 antialiased">
+  <div class="max-w-6xl mx-auto space-y-6">
+
+    <!-- Top Navigation & Role Switcher Bar -->
+    <header class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 md:p-6 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-3">
+          <span class="p-2 rounded-xl bg-sky-500/20 text-sky-400 text-xl font-bold">⚡ GE AeroService</span>
+          <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-semibold">100% Offline-First Enabled</span>
+        </div>
+        <h1 class="text-xl md:text-2xl font-bold text-white mt-1">Windmill Blade Field Service & Twin-Stream Engine</h1>
+        <p class="text-xs md:text-sm text-[var(--muted-foreground)]">Client Requirements Clarity Walkthrough & Multi-Role Interactive Flow</p>
+      </div>
+
+      <!-- Role Selector -->
+      <div class="w-full md:w-auto bg-slate-900/90 border border-slate-700/80 rounded-xl p-2 flex flex-col sm:flex-row items-center gap-2">
+        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider px-2">Active Persona:</span>
+        <div class="grid grid-cols-2 sm:flex gap-1.5 w-full sm:w-auto">
+          <button onclick="switchRole('technician')" id="btn-role-technician" class="role-btn px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-sky-600 text-white shadow-md">
+            🧗 Tech (IRATA)
+          </button>
+          <button onclick="switchRole('client_lead')" id="btn-role-client_lead" class="role-btn px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
+            🏢 GE Site Lead
+          </button>
+          <button onclick="switchRole('hr_payroll')" id="btn-role-hr_payroll" class="role-btn px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
+            👥 HR Payroll
+          </button>
+          <button onclick="switchRole('billing_ops')" id="btn-role-billing_ops" class="role-btn px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
+            💰 Finance/Billing
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Role Context Banner -->
+    <div id="role-banner" class="bg-gradient-to-r from-sky-950/80 to-slate-900 border border-sky-800/40 rounded-xl p-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span id="role-icon" class="text-2xl">🧗</span>
+        <div>
+          <h2 id="role-title" class="text-sm font-semibold text-sky-300">Blade Repair Technician / Rope Access L3</h2>
+          <p id="role-desc" class="text-xs text-slate-300">Focus: Pre-trip verification, LOTO safety lock, interactive blade damage mapping, and composite curing logs.</p>
+        </div>
+      </div>
+      <span class="hidden sm:inline-block text-xs bg-slate-800 text-slate-400 px-3 py-1 rounded-md border border-slate-700">Perspective Switcher</span>
+    </div>
+
+    <!-- Stepper Pipeline Header -->
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 shadow-lg overflow-x-auto">
+      <div class="flex items-center justify-between min-w-[700px] gap-2">
+        
+        <button onclick="goToStep(1)" id="step-nav-1" class="flex-1 text-left p-3 rounded-xl border border-slate-700 transition-all active-step">
+          <div class="text-[11px] uppercase font-bold tracking-wider opacity-70">Step 1</div>
+          <div class="text-xs font-bold truncate">Pre-Departure Check</div>
+          <div class="text-[11px] opacity-75">GWO & Resin Scan</div>
+        </button>
+
+        <div class="text-slate-600 font-bold">→</div>
+
+        <button onclick="goToStep(2)" id="step-nav-2" class="flex-1 text-left p-3 rounded-xl border border-slate-800 transition-all opacity-70 hover:opacity-100">
+          <div class="text-[11px] uppercase font-bold tracking-wider opacity-70">Step 2</div>
+          <div class="text-xs font-bold truncate">On-Site & LOTO</div>
+          <div class="text-[11px] opacity-75">Rotor Pin & Weather</div>
+        </button>
+
+        <div class="text-slate-600 font-bold">→</div>
+
+        <button onclick="goToStep(3)" id="step-nav-3" class="flex-1 text-left p-3 rounded-xl border border-slate-800 transition-all opacity-70 hover:opacity-100">
+          <div class="text-[11px] uppercase font-bold tracking-wider opacity-70">Step 3</div>
+          <div class="text-xs font-bold truncate">Blade Canvas (0-80m)</div>
+          <div class="text-[11px] opacity-75">Damage Cat 1-5</div>
+        </button>
+
+        <div class="text-slate-600 font-bold">→</div>
+
+        <button onclick="goToStep(4)" id="step-nav-4" class="flex-1 text-left p-3 rounded-xl border border-slate-800 transition-all opacity-70 hover:opacity-100">
+          <div class="text-[11px] uppercase font-bold tracking-wider opacity-70">Step 4</div>
+          <div class="text-xs font-bold truncate">Composite Repair</div>
+          <div class="text-[11px] opacity-75">Scarf & Thermal Cure</div>
+        </button>
+
+        <div class="text-slate-600 font-bold">→</div>
+
+        <button onclick="goToStep(5)" id="step-nav-5" class="flex-1 text-left p-3 rounded-xl border border-slate-800 transition-all opacity-70 hover:opacity-100">
+          <div class="text-[11px] uppercase font-bold tracking-wider opacity-70">Step 5</div>
+          <div class="text-xs font-bold truncate">GE Sign-off & BIRR</div>
+          <div class="text-[11px] opacity-75">E-Sign & Report</div>
+        </button>
+
+        <div class="text-slate-600 font-bold">→</div>
+
+        <button onclick="goToStep(6)" id="step-nav-6" class="flex-1 text-left p-3 rounded-xl border border-slate-800 transition-all opacity-70 hover:opacity-100">
+          <div class="text-[11px] uppercase font-bold tracking-wider opacity-70">Step 6</div>
+          <div class="text-xs font-bold truncate">Twin-Stream Engine</div>
+          <div class="text-[11px] opacity-75">Payroll vs Billing</div>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Active Stage Screen Container -->
+    <main class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-xl space-y-6">
+
+      <!-- Global "Assume Ready / Fast-Track" Control for Client Demo -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-slate-900/70 border border-amber-500/30 p-3.5 rounded-xl">
+        <div class="flex items-center gap-2.5">
+          <span class="text-amber-400 text-lg">💡</span>
+          <div>
+            <span class="text-xs font-semibold text-amber-300">Client Demo Acceleration Mode:</span>
+            <span class="text-xs text-slate-300 block sm:inline">Check off items manually, or click "Assume Data Ready" to test the automated handover.</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <button onclick="selectAllCheckboxes()" class="w-full sm:w-auto px-3.5 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded-lg text-xs font-semibold transition-all">
+            ✓ Select All / Assume Ready
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 1: PRE-DEPARTURE ================= -->
+      <div id="screen-step-1" class="step-screen space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
+          <div>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>🎒</span> Step 1: Pre-Departure Verification & Tool Crib Batch Scanner
+            </h2>
+            <p class="text-xs text-slate-400">Eliminates 4-hour wasted transit trips. Enforces valid certification and chemical shelf-life before departure.</p>
+          </div>
+          <span class="text-xs px-2.5 py-1 bg-sky-950 text-sky-400 border border-sky-800 rounded-md">Gatekeeper Module</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- GWO / IRATA Verification -->
+          <div class="bg-slate-900/80 border border-slate-700/80 rounded-xl p-4 space-y-3">
+            <div class="flex justify-between items-center">
+              <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider">Crew Certifications (WINDA / IRATA)</h3>
+              <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">All Valid</span>
+            </div>
+            
+            <label class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-800/50 hover:bg-slate-800 cursor-pointer border border-slate-700/50">
+              <input type="checkbox" class="step-check mt-1 accent-sky-500 rounded" onchange="checkCompletion(1)">
+              <div>
+                <div class="text-xs font-semibold text-white">GWO BST + ART + Blade Repair (WINDA #WD-84920)</div>
+                <div class="text-[11px] text-slate-400">Technician: R. Kathirvel | Expiry: 14-Oct-2027 (Compliant)</div>
+              </div>
+            </label>
+
+            <label class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-800/50 hover:bg-slate-800 cursor-pointer border border-slate-700/50">
+              <input type="checkbox" class="step-check mt-1 accent-sky-500 rounded" onchange="checkCompletion(1)">
+              <div>
+                <div class="text-xs font-semibold text-white">IRATA Level 3 Rope Access Supervisor (#3/118204)</div>
+                <div class="text-[11px] text-slate-400">Supervisor: M. Henderson | First Aid at Heights Valid</div>
+              </div>
+            </label>
+          </div>
+
+          <!-- Tool & Chemical Expiry Barcode Check -->
+          <div class="bg-slate-900/80 border border-slate-700/80 rounded-xl p-4 space-y-3">
+            <div class="flex justify-between items-center">
+              <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider">Chemicals & Calibrated Hardware</h3>
+              <span class="text-xs bg-sky-500/20 text-sky-400 px-2 py-0.5 rounded">QR Verified</span>
+            </div>
+
+            <label class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-800/50 hover:bg-slate-800 cursor-pointer border border-slate-700/50">
+              <input type="checkbox" class="step-check mt-1 accent-sky-500 rounded" onchange="checkCompletion(1)">
+              <div>
+                <div class="text-xs font-semibold text-white">Epoxy Resin 2-Part (Batch #EPX-2026-99A / Hardener #HD-81)</div>
+                <div class="text-[11px] text-slate-400">Shelf-life remaining: 114 days. Ratio 100:30 validated.</div>
+              </div>
+            </label>
+
+            <label class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-800/50 hover:bg-slate-800 cursor-pointer border border-slate-700/50">
+              <input type="checkbox" class="step-check mt-1 accent-sky-500 rounded" onchange="checkCompletion(1)">
+              <div>
+                <div class="text-xs font-semibold text-white">Silicone Heat Blanket & Dual Thermocouple Datalogger</div>
+                <div class="text-[11px] text-slate-400">Calibration Cert #CAL-2026-09 | Vacuum pump tested to -0.92 bar</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="flex justify-end pt-2">
+          <button onclick="advanceToNextStep(1)" id="btn-next-1" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold flex items-center gap-2 transition-all opacity-50 cursor-not-allowed" disabled>
+            <span>Lock Pre-Departure & Depart to Turbine</span> →
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 2: ON-SITE & LOTO ================= -->
+      <div id="screen-step-2" class="step-screen hidden space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
+          <div>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>🔒</span> Step 2: On-Site Arrival, Weather Telemetry & LOTO Verification
+            </h2>
+            <p class="text-xs text-slate-400">Life-critical gate: Mechanical rotor lock photo and real-time wind speed must be signed off before climbing.</p>
+          </div>
+          <span class="text-xs px-2.5 py-1 bg-amber-950 text-amber-400 border border-amber-800 rounded-md">Life Safety Protocol</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Live Weather Station -->
+          <div class="bg-slate-900/80 border border-slate-700/80 rounded-xl p-4 space-y-2">
+            <h3 class="text-xs font-bold text-slate-300 uppercase">Turbine Anemometer Live</h3>
+            <div class="p-3 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-between">
+              <div>
+                <div class="text-xl font-extrabold text-emerald-400">6.4 m/s</div>
+                <div class="text-[11px] text-slate-400">Threshold: &lt; 10.0 m/s</div>
+              </div>
+              <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded">Rope Permitted</span>
+            </div>
+            <div class="text-[11px] text-slate-400 flex justify-between">
+              <span>RH: 58% (Max 70%)</span>
+              <span>Substrate: 21°C (&gt; Dew Pt +3°C)</span>
+            </div>
+          </div>
+
+          <!-- LOTO Checklist -->
+          <div class="md:col-span-2 bg-slate-900/80 border border-slate-700/80 rounded-xl p-4 space-y-3">
+            <h3 class="text-xs font-bold text-slate-300 uppercase">Mandatory Lockout / Tagout (LOTO) Evidence</h3>
+            
+            <label class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-800/50 hover:bg-slate-800 cursor-pointer border border-slate-700/50">
+              <input type="checkbox" class="step-check mt-1 accent-sky-500 rounded" onchange="checkCompletion(2)">
+              <div>
+                <div class="text-xs font-semibold text-white">Mechanical Rotor Pin Engaged + Photo Proof Attached</div>
+                <div class="text-[11px] text-slate-400">Rotor physically pinned at 6 o'clock position (Blade B vertical down).</div>
+              </div>
+            </label>
+
+            <label class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-800/50 hover:bg-slate-800 cursor-pointer border border-slate-700/50">
+              <input type="checkbox" class="step-check mt-1 accent-sky-500 rounded" onchange="checkCompletion(2)">
+              <div>
+                <div class="text-xs font-semibold text-white">Pitch & Yaw System Electrically Isolated with Padlock #LK-9021</div>
+                <div class="text-[11px] text-slate-400">Physical safety tags signed by GE Site Operator.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="flex justify-between pt-2">
+          <button onclick="goToStep(1)" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">← Back</button>
+          <button onclick="advanceToNextStep(2)" id="btn-next-2" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold flex items-center gap-2 transition-all opacity-50 cursor-not-allowed" disabled>
+            <span>Confirm LOTO & Ascend Tower</span> →
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 3: INTERACTIVE BLADE CANVAS ================= -->
+      <div id="screen-step-3" class="step-screen hidden space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
+          <div>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>📐</span> Step 3: Interactive Blade Canvas (Span 0m to 80m)
+            </h2>
+            <p class="text-xs text-slate-400">Visual demarcation of defect coordinates across Suction Side, Pressure Side, Leading Edge, and Trailing Edge.</p>
+          </div>
+          <span class="text-xs px-2.5 py-1 bg-indigo-950 text-indigo-400 border border-indigo-800 rounded-md">Spatial Coordinate Engine</span>
+        </div>
+
+        <!-- Simulated Blade SVG Graphic -->
+        <div class="bg-slate-900 border border-slate-700/80 rounded-xl p-4 space-y-3">
+          <div class="flex justify-between items-center text-xs text-slate-400">
+            <span>Root (0m)</span>
+            <span class="font-bold text-sky-400">Blade B (Length: 78.5 meters)</span>
+            <span>Aero Tip (80m)</span>
+          </div>
+          
+          <div class="relative w-full h-20 bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 rounded-xl border border-slate-600 flex items-center px-4 overflow-hidden">
+            <!-- Blade Geometry Silhouette -->
+            <div class="absolute inset-0 flex items-center px-2 opacity-40 pointer-events-none">
+              <div class="h-14 w-12 bg-slate-500 rounded-l-full"></div>
+              <div class="h-10 flex-1 bg-slate-500 ml-1 rounded-r-full" style="clip-path: polygon(0 20%, 100% 45%, 100% 55%, 0 80%);"></div>
+            </div>
+
+            <!-- Defect Pin 1 -->
+            <div class="relative z-10 ml-[45%] flex flex-col items-center group cursor-pointer">
+              <span class="w-4 h-4 rounded-full bg-amber-500 ring-4 ring-amber-500/30 flex items-center justify-center text-[10px] font-bold text-black animate-pulse">!</span>
+              <span class="text-[10px] bg-slate-900 border border-amber-500 text-amber-300 px-1.5 py-0.5 rounded shadow mt-1 whitespace-nowrap">42.5m - LE Erosion (Cat 2)</span>
+            </div>
+
+            <!-- Defect Pin 2 (Structural) -->
+            <div class="relative z-10 ml-[30%] flex flex-col items-center group cursor-pointer">
+              <span class="w-4 h-4 rounded-full bg-red-500 ring-4 ring-red-500/30 flex items-center justify-center text-[10px] font-bold text-white">✕</span>
+              <span class="text-[10px] bg-slate-900 border border-red-500 text-red-300 px-1.5 py-0.5 rounded shadow mt-1 whitespace-nowrap">68.0m - Delamination (Cat 3)</span>
+            </div>
+          </div>
+          
+          <div class="flex gap-2 text-xs">
+            <span class="px-2 py-0.5 bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded text-[11px]">Cat 2: Leading Edge Erosion (Span 42.5m)</span>
+            <span class="px-2 py-0.5 bg-red-500/20 text-red-400 border border-red-500/30 rounded text-[11px]">Cat 3: Suction Side Laminate Crack (Span 68.0m)</span>
+          </div>
+        </div>
+
+        <div class="bg-slate-900/80 border border-slate-700/80 rounded-xl p-4 space-y-3">
+          <h3 class="text-xs font-bold text-slate-300 uppercase">Defect Inspection Log Check</h3>
+          <label class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-800/50 hover:bg-slate-800 cursor-pointer border border-slate-700/50">
+            <input type="checkbox" class="step-check mt-1 accent-sky-500 rounded" onchange="checkCompletion(3)">
+            <div>
+              <div class="text-xs font-semibold text-white">Defect Coordinates & High-Res Tap-Test Delineation Logged</div>
+              <div class="text-[11px] text-slate-400">Span: 68.0m | Face: Suction Side (SS) | Distance from LE: 350mm | DNV Cat 3 Approved</div>
+            </div>
+          </label>
+        </div>
+
+        <div class="flex justify-between pt-2">
+          <button onclick="goToStep(2)" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">← Back</button>
+          <button onclick="advanceToNextStep(3)" id="btn-next-3" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold flex items-center gap-2 transition-all opacity-50 cursor-not-allowed" disabled>
+            <span>Proceed to Composite Repair Log</span> →
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 4: COMPOSITE REPAIR & CURING ================= -->
+      <div id="screen-step-4" class="step-screen hidden space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
+          <div>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>🧪</span> Step 4: Composite Scarf, Vacuum Bagging & Thermal Cure Profile
+            </h2>
+            <p class="text-xs text-slate-400">Strict structural compliance: 50:1 step scarfing, -0.85 bar vacuum draw, and closed-loop ramp/soak/cure thermal curve.</p>
+          </div>
+          <span class="text-xs px-2.5 py-1 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-md">Aerospace-Grade Composite Repair</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Scarfing & Ply Log -->
+          <div class="bg-slate-900/80 border border-slate-700/80 rounded-xl p-4 space-y-3">
+            <h3 class="text-xs font-bold text-slate-300 uppercase">Scarfing & Layup Specification</h3>
+            <div class="space-y-1.5 text-xs text-slate-300 bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+              <div class="flex justify-between"><span>Scarf Taper Ratio:</span><span class="font-bold text-sky-400">50:1 (2.4mm depth = 120mm bevel)</span></div>
+              <div class="flex justify-between"><span>Glass Fabric Layers:</span><span class="font-bold">4x Triaxial (800g/m²) + 2x Biaxial (600g/m²)</span></div>
+              <div class="flex justify-between"><span>Vacuum Draw:</span><span class="font-bold text-emerald-400">-0.89 bar (Target: &gt; -0.85 bar)</span></div>
+              <div class="flex justify-between"><span>LPS Continuity Resistance:</span><span class="font-bold text-emerald-400">0.22 Ω (&lt; 0.5 Ω Pass)</span></div>
+            </div>
+            
+            <label class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-800/50 hover:bg-slate-800 cursor-pointer border border-slate-700/50">
+              <input type="checkbox" class="step-check mt-1 accent-sky-500 rounded" onchange="checkCompletion(4)">
+              <div>
+                <div class="text-xs font-semibold text-white">Scarf Sanding & Moisture Bake-out Validated</div>
+                <div class="text-[11px] text-slate-400">Substrate pre-heated to 40°C to eliminate micro-moisture before lamination.</div>
+              </div>
+            </label>
+          </div>
+
+          <!-- Heat Blanket Datalogger Profile -->
+          <div class="bg-slate-900/80 border border-slate-700/80 rounded-xl p-4 space-y-3">
+            <h3 class="text-xs font-bold text-slate-300 uppercase">Thermocouple Thermal Cure Profile</h3>
+            
+            <div class="bg-slate-800/80 border border-slate-700 rounded-lg p-3 space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-400">Cure Status:</span>
+                <span class="text-emerald-400 font-bold">Dwell Cycle Completed (70°C for 4.0 hrs)</span>
+              </div>
+              <!-- Mini Progress Bar / Temperature Ramp -->
+              <div class="w-full bg-slate-700 h-2.5 rounded-full overflow-hidden">
+                <div class="bg-gradient-to-r from-sky-400 via-amber-400 to-emerald-400 h-full w-full"></div>
+              </div>
+              <div class="flex justify-between text-[11px] text-slate-400">
+                <span>Ramp: 1°C/min</span>
+                <span>Peak Dwell: 72.1°C</span>
+                <span>Controlled Cool-down: Pass</span>
+              </div>
+            </div>
+
+            <label class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-800/50 hover:bg-slate-800 cursor-pointer border border-slate-700/50">
+              <input type="checkbox" class="step-check mt-1 accent-sky-500 rounded" onchange="checkCompletion(4)">
+              <div>
+                <div class="text-xs font-semibold text-white">Hardness Shore D & Post-Cure Visual Inspection Passed</div>
+                <div class="text-[11px] text-slate-400">Barcol hardness: 84 | UV-resistant polyurethane topcoat applied.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="flex justify-between pt-2">
+          <button onclick="goToStep(3)" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">← Back</button>
+          <button onclick="advanceToNextStep(4)" id="btn-next-4" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold flex items-center gap-2 transition-all opacity-50 cursor-not-allowed" disabled>
+            <span>Compile BIRR Report & Request Sign-off</span> →
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 5: GE SIGN-OFF & BIRR ================= -->
+      <div id="screen-step-5" class="step-screen hidden space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
+          <div>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>✍️</span> Step 5: GE Site Lead Sign-Off & BIRR PDF Compilation
+            </h2>
+            <p class="text-xs text-slate-400">Official Blade Inspection & Repair Report (BIRR) generation with cryptographic digital signature.</p>
+          </div>
+          <span class="text-xs px-2.5 py-1 bg-purple-950 text-purple-400 border border-purple-800 rounded-md">Legal & Technical Authorization</span>
+        </div>
+
+        <div class="bg-slate-900/80 border border-slate-700/80 rounded-xl p-5 space-y-4">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-800 pb-3">
+            <div>
+              <div class="text-sm font-bold text-white">BIRR Reference: #BIRR-GE-2026-T04-B</div>
+              <div class="text-xs text-slate-400">Asset: GE 3.8-130 Turbine T04 | Wind Farm: Muppandal Valley</div>
+            </div>
+            <span class="text-xs bg-sky-500/20 text-sky-300 px-3 py-1 rounded-full border border-sky-500/40 font-semibold">Ready for E-Signature</span>
+          </div>
+
+          <!-- Signature Pad Mockup -->
+          <div class="p-4 bg-slate-950 border border-slate-800 rounded-xl space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-slate-400">GE Site Lead E-Signature:</span>
+              <span class="text-slate-500 italic">Sign with stylus/finger</span>
+            </div>
+            <div class="h-16 w-full border border-dashed border-slate-700 rounded-lg flex items-center justify-center text-slate-500 text-xs bg-slate-900/50">
+              <span class="font-serif italic text-sky-400 text-lg">Alex V. - GE Site Lead (Verified via PIN #4902)</span>
+            </div>
+          </div>
+
+          <label class="flex items-start gap-3 p-2.5 rounded-lg bg-slate-800/50 hover:bg-slate-800 cursor-pointer border border-slate-700/50">
+            <input type="checkbox" class="step-check mt-1 accent-sky-500 rounded" onchange="checkCompletion(5)">
+            <div>
+              <div class="text-xs font-semibold text-white">Client Representative Approval & BIRR PDF Generated</div>
+              <div class="text-[11px] text-slate-400">I confirm composite repair was performed to OEM standards and turbine LOTO is cleared for rotation.</div>
+            </div>
+          </label>
+        </div>
+
+        <div class="flex justify-between pt-2">
+          <button onclick="goToStep(4)" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">← Back</button>
+          <button onclick="advanceToNextStep(5)" id="btn-next-5" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center gap-2 transition-all opacity-50 cursor-not-allowed" disabled>
+            <span>⚡ Trigger Automated Twin-Stream Engine</span> →
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 6: TWIN-STREAM ENGINE ================= -->
+      <div id="screen-step-6" class="step-screen hidden space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
+          <div>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>⚡</span> Step 6: Automated Twin-Stream Engine (Payroll vs Billing)
+            </h2>
+            <p class="text-xs text-slate-400">One single verified field event automatically splits into internal HR technician payroll and external GE client billing.</p>
+          </div>
+          <span class="text-xs px-2.5 py-1 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-md">Automated ERP Split</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- STREAM A: HR PAYROLL -->
+          <div class="bg-gradient-to-br from-slate-900 to-sky-950/40 border border-sky-700/40 rounded-2xl p-5 space-y-4 shadow-xl">
+            <div class="flex items-center justify-between border-b border-sky-800/40 pb-2.5">
+              <div class="flex items-center gap-2">
+                <span class="p-1.5 rounded-lg bg-sky-500/20 text-sky-400 text-sm">👤</span>
+                <div>
+                  <h3 class="text-sm font-bold text-sky-300">STREAM A: Technician Payroll</h3>
+                  <div class="text-[11px] text-slate-400">Export: Workday / ADP Feed</div>
+                </div>
+              </div>
+              <span class="text-xs px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-semibold">Internal HR</span>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between p-2 rounded bg-slate-800/60 border border-slate-700/50">
+                <span class="text-slate-300">Base Travel Hours (2.5 hrs @ $45.00/hr)</span>
+                <span class="font-bold text-white">$112.50</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-800/60 border border-slate-700/50">
+                <span class="text-slate-300">Tower Climbing Hazard Pay (6.5 hrs @ $70.00/hr)</span>
+                <span class="font-bold text-white">$455.00</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-800/60 border border-slate-700/50">
+                <span class="text-slate-300">Weather Standby Guaranteed Pay (1.5 hrs @ $45.00/hr)</span>
+                <span class="font-bold text-white">$67.50</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-800/60 border border-slate-700/50">
+                <span class="text-slate-300">Daily Per-Diem (Lodging & Meal Allowance)</span>
+                <span class="font-bold text-white">$120.00</span>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-sky-800/40 flex justify-between items-center">
+              <span class="text-xs font-bold text-sky-300 uppercase">Total Payable to Technician:</span>
+              <span class="text-lg font-extrabold text-emerald-400">$755.00</span>
+            </div>
+          </div>
+
+          <!-- STREAM B: GE CLIENT BILLING -->
+          <div class="bg-gradient-to-br from-slate-900 to-indigo-950/40 border border-indigo-700/40 rounded-2xl p-5 space-y-4 shadow-xl">
+            <div class="flex items-center justify-between border-b border-indigo-800/40 pb-2.5">
+              <div class="flex items-center gap-2">
+                <span class="p-1.5 rounded-lg bg-indigo-500/20 text-indigo-400 text-sm">🏢</span>
+                <div>
+                  <h3 class="text-sm font-bold text-indigo-300">STREAM B: GE Client Billing</h3>
+                  <div class="text-[11px] text-slate-400">Export: SAP S/4HANA / Oracle ERP</div>
+                </div>
+              </div>
+              <span class="text-xs px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-semibold">Client Invoicing</span>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between p-2 rounded bg-slate-800/60 border border-slate-700/50">
+                <span class="text-slate-300">IRATA L3 Blade Tech Billable (6.5 hrs @ $195.00/hr)</span>
+                <span class="font-bold text-white">$1,267.50</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-800/60 border border-slate-700/50">
+                <span class="text-slate-300">Contractual Weather Standby (1.5 hrs @ $90.00/hr)</span>
+                <span class="font-bold text-white">$135.00</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-800/60 border border-slate-700/50">
+                <span class="text-slate-300">Consumables (Epoxy & Triax: $240 + 18% markup)</span>
+                <span class="font-bold text-white">$283.20</span>
+              </div>
+              <div class="flex justify-between p-2 rounded bg-slate-800/60 border border-slate-700/50">
+                <span class="text-slate-300">Skylift Rental Pass-through ($450 + 10% fee)</span>
+                <span class="font-bold text-white">$495.00</span>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-indigo-800/40 flex justify-between items-center">
+              <span class="text-xs font-bold text-indigo-300 uppercase">Total Invoice to GE Asset Owner:</span>
+              <span class="text-lg font-extrabold text-emerald-400">$2,180.70</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Margin Reconciliation Strip -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <div class="flex items-center gap-3">
+            <span class="text-emerald-400 text-xl font-bold">📈</span>
+            <div>
+              <div class="text-xs font-bold text-slate-200">Reconciled Gross Margin: $1,425.70 (65.4%)</div>
+              <div class="text-[11px] text-slate-400">Zero discrepancies. Job certified by both HR and Financial Controllers.</div>
+            </div>
+          </div>
+          <button onclick="goToStep(1)" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-sky-400 rounded-lg text-xs font-semibold">
+            ↻ Restart Flow Simulation
+          </button>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <script>
+    let currentStep = 1;
+
+    const roleData = {
+      technician: {
+        title: "Blade Repair Technician / Rope Access L3",
+        icon: "🧗",
+        desc: "Focus: Pre-trip verification, LOTO safety lock, interactive blade damage mapping, and composite curing logs.",
+        preferredStep: 1
+      },
+      client_lead: {
+        title: "GE Site Representative / Asset Owner",
+        icon: "🏢",
+        desc: "Focus: Reviewing BIRR technical report, verifying LOTO release, and providing legal digital authorization.",
+        preferredStep: 5
+      },
+      hr_payroll: {
+        title: "HR & Technician Payroll Administrator",
+        icon: "👥",
+        desc: "Focus: Stream A review - base travel pay, high-risk climbing hazard differential, weather standby, and per-diem.",
+        preferredStep: 6
+      },
+      billing_ops: {
+        title: "Finance & Commercial Billing Specialist",
+        icon: "💰",
+        desc: "Focus: Stream B review - contractual MSA rate cards, warranty vs client liability split, and materials markup.",
+        preferredStep: 6
+      }
+    };
+
+    function switchRole(roleKey) {
+      // Update Button Styles
+      document.querySelectorAll('.role-btn').forEach(btn => {
+        btn.classList.remove('bg-sky-600', 'text-white', 'shadow-md');
+        btn.classList.add('bg-slate-800', 'text-slate-300');
+      });
+      const activeBtn = document.getElementById(`btn-role-${roleKey}`);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-sky-600', 'text-white', 'shadow-md');
+        activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
+      }
+
+      // Update Banner Text
+      const role = roleData[roleKey];
+      document.getElementById('role-title').innerText = role.title;
+      document.getElementById('role-icon').innerText = role.icon;
+      document.getElementById('role-desc').innerText = role.desc;
+
+      // Jump to role preferred step for clear illustration
+      goToStep(role.preferredStep);
+    }
+
+    function goToStep(stepNumber) {
+      currentStep = stepNumber;
+      
+      // Toggle Screens
+      document.querySelectorAll('.step-screen').forEach((screen, idx) => {
+        if (idx + 1 === stepNumber) {
+          screen.classList.remove('hidden');
+        } else {
+          screen.classList.add('hidden');
+        }
+      });
+
+      // Update Stepper Navigation
+      for (let i = 1; i <= 6; i++) {
+        const nav = document.getElementById(`step-nav-${i}`);
+        if (!nav) continue;
+        nav.classList.remove('active-step', 'completed-step');
+        if (i === stepNumber) {
+          nav.classList.add('active-step');
+        } else if (i < stepNumber) {
+          nav.classList.add('completed-step');
+        }
+      }
+    }
+
+    function checkCompletion(stepNumber) {
+      const screen = document.getElementById(`screen-step-${stepNumber}`);
+      if (!screen) return;
+      const checkboxes = screen.querySelectorAll('.step-check');
+      const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+      
+      const nextBtn = document.getElementById(`btn-next-${stepNumber}`);
+      if (nextBtn) {
+        if (allChecked && checkboxes.length > 0) {
+          nextBtn.disabled = false;
+          nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+          nextBtn.classList.add('shadow-lg', 'shadow-sky-500/20');
+        } else {
+          nextBtn.disabled = true;
+          nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+          nextBtn.classList.remove('shadow-lg', 'shadow-sky-500/20');
+        }
+      }
+    }
+
+    function advanceToNextStep(currentStepNumber) {
+      if (currentStepNumber < 6) {
+        goToStep(currentStepNumber + 1);
+      }
+    }
+
+    function selectAllCheckboxes() {
+      const screen = document.getElementById(`screen-step-${currentStep}`);
+      if (screen) {
+        const checkboxes = screen.querySelectorAll('.step-check');
+        checkboxes.forEach(cb => cb.checked = true);
+        checkCompletion(currentStep);
+      }
+    }
+  </script>
+</body>
+</html>
