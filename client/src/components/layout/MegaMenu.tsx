@@ -90,6 +90,12 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
                 >
                   ★ Mobile Sync &amp; Rotor LOTO Hub
                 </button>
+                <button
+                  onClick={() => onOpenModal('modal-pre-departure')}
+                  className="block py-0.5 text-left text-amber-700 font-semibold hover:underline"
+                >
+                  ★ Pre-Departure GWO Gate
+                </button>
               </div>
             </div>
           </div>
@@ -196,6 +202,12 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
           className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 text-[11px] font-semibold flex items-center gap-1"
         >
           <span>📡</span> Mobile Sync &amp; LOTO
+        </button>
+        <button
+          onClick={() => onOpenModal('modal-pre-departure')}
+          className="px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-[11px] font-semibold flex items-center gap-1"
+        >
+          <span>🛡️</span> GWO Badge Gate
         </button>
       </div>
     </nav>

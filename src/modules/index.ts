@@ -10,3 +10,4 @@ export * from './qms-repair/index.js';
 export * from './doa-approval/index.js';
 export * from './reporting/index.js';
 export * from './mobile-sync/index.js';
+export * from './compliance/index.js';

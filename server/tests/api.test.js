@@ -15,6 +15,7 @@ import {
   validateResinBarcode, 
   verifyRotorLockLoto 
 } from '../../dist/server/src/modules/mobile-sync/index.js';
+import { validatePreDepartureCompliance } from '../../dist/server/src/modules/compliance/index.js';
 
 test('Workforce: calculates timecard pay with neutralized rates and plus hazard', () => {
   const result = calculateTimecardPay({
@@ -165,4 +166,29 @@ test('Mobile Sync: verifies Rotor Lock LOTO safety gates and cryptographic clear
   });
   assert.strictEqual(highWind.isCleared, false);
   assert.strictEqual(highWind.clearanceToken, 'DENIED-HIGH-WIND');
+});
+
+test('Compliance: validates technician credentials & tool crib calibration gate pass', () => {
+  // Test 1: Valid technician & calibrated tools -> Cleared
+  const validPass = validatePreDepartureCompliance('TECH-AZ-101', [
+    'CAL-BLANKET-01',
+    'CAL-MICRO-OHM-04',
+    'CAL-VAC-PUMP-02'
+  ]);
+  assert.strictEqual(validPass.isCleared, true);
+  assert.ok(validPass.gatePassToken.startsWith('GATE-PASS-AZ-'));
+  assert.strictEqual(validPass.verifiedToolsCount, 3);
+  assert.strictEqual(validPass.sha256Seal.length, 64);
+  assert.strictEqual(validPass.rejectionReasons.length, 0);
+
+  // Test 2: Expired technician -> Blocked
+  const expiredTechPass = validatePreDepartureCompliance('TECH-AZ-999', ['CAL-BLANKET-01']);
+  assert.strictEqual(expiredTechPass.isCleared, false);
+  assert.strictEqual(expiredTechPass.gatePassToken, 'GATE-DENIED-TECH-AZ-999');
+  assert.ok(expiredTechPass.rejectionReasons.length > 0);
+
+  // Test 3: Expired tool -> Blocked
+  const expiredToolPass = validatePreDepartureCompliance('TECH-AZ-101', ['CAL-EXPIRED-PUMP']);
+  assert.strictEqual(expiredToolPass.isCleared, false);
+  assert.ok(expiredToolPass.rejectionReasons.some(r => r.includes('calibration certificate expired')));
 });

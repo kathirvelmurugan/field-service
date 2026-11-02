@@ -146,4 +146,23 @@ export const apiClient = {
     });
     return res.json();
   },
+
+  async checkPreDepartureCompliance(technicianId: string, toolIds: string[]) {
+    const res = await fetch('/api/compliance/pre-departure-check', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ technicianId, toolIds }),
+    });
+    return res.json();
+  },
+
+  async getComplianceTechnicians() {
+    const res = await fetch('/api/compliance/technicians');
+    return res.json();
+  },
+
+  async getComplianceTools() {
+    const res = await fetch('/api/compliance/tools');
+    return res.json();
+  },
 };

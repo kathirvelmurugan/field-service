@@ -55,6 +55,12 @@ import {
   verifyRotorLockLoto 
 } from '../src/modules/mobile-sync/index.js';
 
+import { 
+  validatePreDepartureCompliance, 
+  CERTIFIED_TECHNICIANS, 
+  CALIBRATED_TOOLS_CRIB 
+} from '../src/modules/compliance/index.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -289,6 +295,23 @@ app.post('/api/safety/rotor-lock-verify', (req: Request, res: Response) => {
     photoChecksum: photoChecksum || undefined,
   });
   res.json(clearance);
+});
+
+// 10. Pre-Departure Compliance & Tool Calibration Gate (Stream 8 / Pillar 8)
+app.post('/api/compliance/pre-departure-check', (req: Request, res: Response) => {
+  const { technicianId, toolIds } = req.body;
+  const targetTech = technicianId || 'TECH-AZ-101';
+  const targetTools = Array.isArray(toolIds) ? toolIds : ['CAL-BLANKET-01', 'CAL-MICRO-OHM-04', 'CAL-VAC-PUMP-02'];
+  const gatePass = validatePreDepartureCompliance(targetTech, targetTools);
+  res.json(gatePass);
+});
+
+app.get('/api/compliance/technicians', (req: Request, res: Response) => {
+  res.json(Object.values(CERTIFIED_TECHNICIANS));
+});
+
+app.get('/api/compliance/tools', (req: Request, res: Response) => {
+  res.json(Object.values(CALIBRATED_TOOLS_CRIB));
 });
 
 // Static Asset Delivery

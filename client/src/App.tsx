@@ -13,6 +13,7 @@ import {
   AttendanceClosePeriodsModal, 
   TrainingRequirementsModal 
 } from './components/system/SystemModals';
+import { PreDepartureGateModal } from './components/compliance/PreDepartureGateModal';
 import { apiClient, TimeCardRecord } from './api/client';
 
 export const App: React.FC = () => {
@@ -78,6 +79,8 @@ export const App: React.FC = () => {
         onToggleTheme={handleToggleTheme}
         apiStatus={apiStatus}
         onNavigateApprovals={() => setActiveTab('approvals')}
+        onSelectTab={setActiveTab}
+        onOpenModal={setActiveModal}
       />
 
       {/* 2. Operations & Settings Mega-Menu */}
@@ -311,6 +314,10 @@ export const App: React.FC = () => {
 
       {activeModal === 'modal-training' && (
         <TrainingRequirementsModal onClose={() => setActiveModal(null)} />
+      )}
+
+      {activeModal === 'modal-pre-departure' && (
+        <PreDepartureGateModal onClose={() => setActiveModal(null)} />
       )}
     </div>
   );
