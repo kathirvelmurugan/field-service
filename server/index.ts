@@ -203,8 +203,8 @@ app.get('/api/portfolio/summary', (req: Request, res: Response) => {
 });
 
 // Static Asset Delivery
-const clientDistPath = path.resolve(__dirname, '../../dist/client');
-const fallbackStaticPath = path.resolve(__dirname, '../../');
+const clientDistPath = path.resolve(process.cwd(), 'dist/client');
+const fallbackStaticPath = process.cwd();
 
 app.use(express.static(clientDistPath));
 app.use(express.static(fallbackStaticPath));
