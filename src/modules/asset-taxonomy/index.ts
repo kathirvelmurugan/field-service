@@ -155,3 +155,15 @@ export function findComponentBySpan(oemIndex: number, spanMeters: number): Compo
     spanMeters >= node.spanRangeMeters[0] && spanMeters <= node.spanRangeMeters[1]
   );
 }
+
+export const AssetTaxonomyModule = {
+  portfolio: OEM_PORTFOLIO,
+  findComponentBySpan,
+  workClasses: [
+    'Major Composite Scarf Repair (Cat 4/5)',
+    'Leading Edge Protection Tape Reapplication',
+    'LPS Receptor Continuity & Resistance Test',
+    'Trailing Edge Adhesive Re-bond',
+    'Routine Visual & Acoustic Tap Survey'
+  ],
+};
