@@ -204,21 +204,12 @@ app.get('/api/portfolio/summary', (req: Request, res: Response) => {
 
 // Static Asset Delivery
 const clientDistPath = path.resolve(process.cwd(), 'dist/client');
-const fallbackStaticPath = process.cwd();
 
 app.use(express.static(clientDistPath));
-app.use(express.static(fallbackStaticPath));
 
-// Fallback to client SPA index for any non-API routes
+// Fallback to client React SPA index for all non-API routes
 app.get('*', (req: Request, res: Response) => {
-  const clientIndex = path.join(clientDistPath, 'index.html');
-  const rootIndex = path.join(fallbackStaticPath, 'index.html');
-  
-  res.sendFile(clientIndex, (err) => {
-    if (err) {
-      res.sendFile(rootIndex);
-    }
-  });
+  res.sendFile(path.join(clientDistPath, 'index.html'));
 });
 
 app.listen(PORT, () => {

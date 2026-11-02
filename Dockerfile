@@ -3,11 +3,11 @@
 FROM node:20-alpine AS builder
 
 WORKDIR /app
-COPY package*.json tsconfig*.json ./
+COPY package*.json tsconfig*.json vite.config.ts ./
 RUN npm ci
 
 COPY . .
-RUN npm run build:server
+RUN npm run build
 RUN node --test server/tests/api.test.js
 
 # Stage 2: Lightweight Production Execution
@@ -21,7 +21,6 @@ COPY package*.json ./
 RUN npm ci --omit=dev --omit=optional
 
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/index.html ./index.html
 
 EXPOSE 10000
 
