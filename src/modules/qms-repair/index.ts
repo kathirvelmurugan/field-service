@@ -156,3 +156,10 @@ export function compileBirrPackage(params: {
     status: 'CERTIFIED_READY_FOR_COMMISSIONING'
   };
 }
+
+export const QmsRepairModule = {
+  calculate50To1Scarf,
+  cureSpec: CURE_PROFILE_SPEC,
+  generateSampleCureTelemetry,
+  compileBirrPackage,
+};
