@@ -169,3 +169,10 @@ export function approveTimeCard(id: string, approverName: string): DailyTimeCard
   card.approvedAt = new Date().toISOString();
   return card;
 }
+
+export const WorkforcePayModule = {
+  config: WORKFORCE_CONFIG,
+  calculatePay: calculateTimecardPay,
+  approveCard: approveTimeCard,
+  seededCards: SEEDED_TIMECARDS,
+};
