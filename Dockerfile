@@ -1,17 +1,28 @@
-# Production-grade ultra-lightweight web server for Render
-FROM nginx:alpine
+# Multi-stage production build for Leading Edge FSM Full-Stack Platform
+# Stage 1: Build & Automated Test Verification
+FROM node:20-alpine AS builder
 
-# Render assigns a dynamic port via $PORT (defaults to 10000 on Render)
+WORKDIR /app
+COPY package*.json tsconfig*.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build:server
+RUN node --test server/tests/api.test.js
+
+# Stage 2: Lightweight Production Execution
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+ENV NODE_ENV=production
 ENV PORT=10000
 
-# Copy nginx template (auto-substituted with $PORT by docker-entrypoint)
-COPY default.conf.template /etc/nginx/templates/default.conf.template
+COPY package*.json ./
+RUN npm ci --omit=dev --omit=optional
 
-# Copy the interactive flow simulator to nginx web root
-COPY index.html /usr/share/nginx/html/index.html
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/index.html ./index.html
 
-# Expose port (metadata)
 EXPOSE 10000
 
-# Run nginx in foreground
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "dist/server/server/index.js"]

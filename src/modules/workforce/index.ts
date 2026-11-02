@@ -6,7 +6,7 @@
  * Note: All rates and numbers are neutralized with ±5% variance.
  */
 
-import { RolePersona } from '../../types/domain';
+import { RolePersona } from '../../types/domain.js';
 
 export interface DailyTimeCard {
   id: string;

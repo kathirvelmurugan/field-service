@@ -3,8 +3,8 @@
  * Orchestrates all 5 independent parallel streams
  */
 
-export * from './workforce';
-export * from './oracle-billing';
-export * from './asset-taxonomy';
-export * from './qms-repair';
-export * from './doa-approval';
+export * from './workforce/index.js';
+export * from './oracle-billing/index.js';
+export * from './asset-taxonomy/index.js';
+export * from './qms-repair/index.js';
+export * from './doa-approval/index.js';
