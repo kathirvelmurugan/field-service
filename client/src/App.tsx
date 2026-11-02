@@ -8,6 +8,11 @@ import { TwinStreamRec } from './components/finance/TwinStreamRec';
 import { BirrModal } from './components/reporting/BirrModal';
 import { MobileSyncDrawer } from './components/mobile/MobileSyncDrawer';
 import { OemTaxonomyModal } from './components/canvas/OemTaxonomyModal';
+import { 
+  IntegrationLogsModal, 
+  AttendanceClosePeriodsModal, 
+  TrainingRequirementsModal 
+} from './components/system/SystemModals';
 import { apiClient, TimeCardRecord } from './api/client';
 
 export const App: React.FC = () => {
@@ -72,6 +77,7 @@ export const App: React.FC = () => {
         isCorporateTheme={isCorporateTheme}
         onToggleTheme={handleToggleTheme}
         apiStatus={apiStatus}
+        onNavigateApprovals={() => setActiveTab('approvals')}
       />
 
       {/* 2. Operations & Settings Mega-Menu */}
@@ -91,7 +97,11 @@ export const App: React.FC = () => {
         />
       ) : (
         <section className="space-y-4">
-          <BladeCanvas onProceedToScarf={() => {}} />
+          <BladeCanvas 
+            onProceedToScarf={() => {
+              document.getElementById('scarf-calculator-section')?.scrollIntoView({ behavior: 'smooth' });
+            }} 
+          />
           <ScarfCalculator />
           <TwinStreamRec
             onOpenOracleModal={() => setActiveModal('modal-oracle')}
@@ -289,6 +299,18 @@ export const App: React.FC = () => {
 
       {activeModal === 'modal-taxonomy' && (
         <OemTaxonomyModal onClose={() => setActiveModal(null)} />
+      )}
+
+      {activeModal === 'modal-logs' && (
+        <IntegrationLogsModal onClose={() => setActiveModal(null)} />
+      )}
+
+      {activeModal === 'modal-attendance' && (
+        <AttendanceClosePeriodsModal onClose={() => setActiveModal(null)} />
+      )}
+
+      {activeModal === 'modal-training' && (
+        <TrainingRequirementsModal onClose={() => setActiveModal(null)} />
       )}
     </div>
   );

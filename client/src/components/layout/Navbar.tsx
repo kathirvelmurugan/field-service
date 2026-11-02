@@ -5,6 +5,7 @@ interface NavbarProps {
   isCorporateTheme: boolean;
   onToggleTheme: () => void;
   apiStatus: string;
+  onNavigateApprovals?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -12,19 +13,34 @@ export const Navbar: React.FC<NavbarProps> = ({
   isCorporateTheme,
   onToggleTheme,
   apiStatus,
+  onNavigateApprovals,
 }) => {
   return (
     <header className="app-card rounded-2xl px-4 py-3 flex flex-wrap items-center justify-between gap-3 text-xs">
       {/* Left: Breadcrumbs & Brand */}
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-600 to-cyan-500 flex items-center justify-center text-white font-black text-sm shadow">
+        <button
+          onClick={onNavigateApprovals}
+          className="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-600 to-cyan-500 flex items-center justify-center text-white font-black text-sm shadow hover:scale-105 transition-all cursor-pointer"
+          title="Return to Approvals Dashboard"
+        >
           ⚡
-        </div>
+        </button>
         <div>
           <div className="flex items-center gap-1.5 text-[11px] text-slate-500 font-medium">
-            <span>Operations</span>
+            <button
+              onClick={onNavigateApprovals}
+              className="hover:text-sky-600 hover:underline cursor-pointer"
+            >
+              Operations
+            </button>
             <span>&gt;</span>
-            <span>Time And Absence/PTO</span>
+            <button
+              onClick={onNavigateApprovals}
+              className="hover:text-sky-600 hover:underline cursor-pointer"
+            >
+              Time And Absence/PTO
+            </button>
             <span>&gt;</span>
             <span className="text-sky-600 font-semibold">{currentBreadcrumb}</span>
           </div>

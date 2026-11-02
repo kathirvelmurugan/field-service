@@ -29,21 +29,25 @@ export const PaginationBar: React.FC<PaginationBarProps> = ({
           <option value={50}>50</option>
         </select>
         <span className="text-slate-400">|</span>
-        <span className="font-medium">1 - {totalRecords} of 118 records</span>
+        <span className="font-medium">
+          {totalRecords === 0 ? '0 records' : `${(currentPage - 1) * pageSize + 1} - ${Math.min(currentPage * pageSize, totalRecords)} of ${totalRecords} records`}
+        </span>
       </div>
 
       <div className="flex items-center gap-1">
         <button
           disabled={currentPage <= 1}
           onClick={() => onPageChange(1)}
-          className="px-2.5 py-1 rounded border border-slate-200 bg-white text-slate-400 disabled:opacity-50 cursor-pointer"
+          className="px-2.5 py-1 rounded border border-slate-200 bg-white text-slate-700 disabled:text-slate-300 disabled:cursor-not-allowed hover:bg-slate-100 cursor-pointer transition-all"
+          title="First Page"
         >
           |&lt;
         </button>
         <button
           disabled={currentPage <= 1}
           onClick={() => onPageChange(currentPage - 1)}
-          className="px-2.5 py-1 rounded border border-slate-200 bg-white text-slate-400 disabled:opacity-50 cursor-pointer"
+          className="px-2.5 py-1 rounded border border-slate-200 bg-white text-slate-700 disabled:text-slate-300 disabled:cursor-not-allowed hover:bg-slate-100 cursor-pointer transition-all"
+          title="Previous Page"
         >
           &lt;
         </button>
@@ -53,14 +57,16 @@ export const PaginationBar: React.FC<PaginationBarProps> = ({
         <button
           disabled={currentPage >= totalPages}
           onClick={() => onPageChange(currentPage + 1)}
-          className="px-2.5 py-1 rounded border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 cursor-pointer"
+          className="px-2.5 py-1 rounded border border-slate-200 bg-white text-slate-700 disabled:text-slate-300 disabled:cursor-not-allowed hover:bg-slate-100 cursor-pointer transition-all"
+          title="Next Page"
         >
           &gt;
         </button>
         <button
           disabled={currentPage >= totalPages}
           onClick={() => onPageChange(totalPages)}
-          className="px-2.5 py-1 rounded border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 cursor-pointer"
+          className="px-2.5 py-1 rounded border border-slate-200 bg-white text-slate-700 disabled:text-slate-300 disabled:cursor-not-allowed hover:bg-slate-100 cursor-pointer transition-all"
+          title="Last Page"
         >
           &gt;|
         </button>

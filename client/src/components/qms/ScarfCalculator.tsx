@@ -12,7 +12,7 @@ export const ScarfCalculator: React.FC = () => {
   }, [depthMm]);
 
   return (
-    <div className="app-card rounded-2xl p-5 border-l-4 border-l-purple-500 space-y-4">
+    <div id="scarf-calculator-section" className="app-card rounded-2xl p-5 border-l-4 border-l-purple-500 space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
           <span>🧪</span> Stage 4: Composite Scarfing Calculator (50:1) & Thermal Cure Datalogger

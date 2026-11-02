@@ -45,7 +45,12 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
                 >
                   ★ Per Diem & Plus Pay
                 </button>
-                <span className="block py-0.5 text-slate-500">Integration Outbound Logs</span>
+                <button
+                  onClick={() => onOpenModal('modal-logs')}
+                  className="block py-0.5 text-left text-sky-700 font-semibold hover:underline"
+                >
+                  ★ Integration Outbound Logs
+                </button>
               </div>
               <div>
                 <div className="font-bold text-slate-900 mb-1">Field Assets & Billing</div>
@@ -113,8 +118,18 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
               >
                 OEM Model & Component Model Mapping
               </button>
-              <span className="block text-slate-500">Attendance Close Periods</span>
-              <span className="block text-slate-500">Safety & Training Course Requirements</span>
+              <button
+                onClick={() => onOpenModal('modal-attendance')}
+                className="block text-left text-sky-700 font-semibold hover:underline"
+              >
+                ★ Attendance Close Periods
+              </button>
+              <button
+                onClick={() => onOpenModal('modal-training')}
+                className="block text-left text-indigo-700 font-semibold hover:underline"
+              >
+                ★ Safety & Training Course Requirements
+              </button>
             </div>
           </div>
         </div>

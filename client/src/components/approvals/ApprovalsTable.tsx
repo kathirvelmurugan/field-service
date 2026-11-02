@@ -17,6 +17,8 @@ export const ApprovalsTable: React.FC<ApprovalsTableProps> = ({
 }) => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [searchFilter, setSearchFilter] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 5;
 
   const toggleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
@@ -37,6 +39,19 @@ export const ApprovalsTable: React.FC<ApprovalsTableProps> = ({
     r.workOrderRef.toLowerCase().includes(searchFilter.toLowerCase()) ||
     r.siteLocation.toLowerCase().includes(searchFilter.toLowerCase())
   );
+
+  const totalPages = Math.max(1, Math.ceil(filteredRecords.length / pageSize));
+  const activePage = Math.min(currentPage, totalPages);
+  const displayedRecords = filteredRecords.slice((activePage - 1) * pageSize, activePage * pageSize);
+
+  const handleBatchApproveClick = () => {
+    if (selectedIds.length > 0) {
+      onBatchApprove(selectedIds);
+    } else {
+      const pendingIds = records.filter(r => r.status === 'submitted').map(r => r.id);
+      onBatchApprove(pendingIds.length > 0 ? pendingIds : ['TC-2026-1024', 'TC-2026-1025']);
+    }
+  };
 
   return (
     <main className="space-y-4">
@@ -64,7 +79,7 @@ export const ApprovalsTable: React.FC<ApprovalsTableProps> = ({
             className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-sky-500"
           />
           <button
-            onClick={() => onBatchApprove(selectedIds.length > 0 ? selectedIds : ['TC-2026-1024', 'TC-2026-1025'])}
+            onClick={handleBatchApproveClick}
             className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow transition-all flex items-center gap-1 cursor-pointer"
           >
             <span>✓</span> Batch Approve
@@ -97,7 +112,7 @@ export const ApprovalsTable: React.FC<ApprovalsTableProps> = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 text-slate-700">
-              {filteredRecords.map(card => {
+              {displayedRecords.map(card => {
                 const isApproved = card.status === 'approved';
                 return (
                   <tr
@@ -189,11 +204,11 @@ export const ApprovalsTable: React.FC<ApprovalsTableProps> = ({
         </div>
 
         <PaginationBar
-          currentPage={1}
-          totalPages={12}
-          totalRecords={records.length}
-          pageSize={10}
-          onPageChange={() => {}}
+          currentPage={activePage}
+          totalPages={totalPages}
+          totalRecords={filteredRecords.length}
+          pageSize={pageSize}
+          onPageChange={(page) => setCurrentPage(page)}
         />
       </div>
     </main>
