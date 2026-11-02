@@ -109,4 +109,41 @@ export const apiClient = {
     });
     return res.json();
   },
+
+  async getSyncStatus() {
+    const res = await fetch('/api/sync/status');
+    return res.json();
+  },
+
+  async processSyncQueue() {
+    const res = await fetch('/api/sync/process', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    return res.json();
+  },
+
+  async validateBarcode(barcode: string) {
+    const res = await fetch('/api/qms/validate-barcode', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ barcode }),
+    });
+    return res.json();
+  },
+
+  async verifyRotorLock(payload: {
+    turbineId: string;
+    technicianName: string;
+    pinEngagementConfirmed: boolean;
+    nacelleWindSpeedMps: number;
+    photoChecksum?: string;
+  }) {
+    const res = await fetch('/api/safety/rotor-lock-verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    return res.json();
+  },
 };

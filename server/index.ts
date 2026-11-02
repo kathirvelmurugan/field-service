@@ -47,6 +47,14 @@ import {
   generateBirrCertificate 
 } from '../src/modules/reporting/index.js';
 
+import { 
+  enqueueSyncItem, 
+  getSyncStatusSummary, 
+  processPendingSyncQueue, 
+  validateResinBarcode, 
+  verifyRotorLockLoto 
+} from '../src/modules/mobile-sync/index.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -243,6 +251,44 @@ app.post('/api/reports/birr/generate', (req: Request, res: Response) => {
   });
 
   res.json(certificate);
+});
+
+// 9. Mobile Field Sync & Safety Verification (Stream 7 / Pillar 7)
+app.post('/api/sync/queue', (req: Request, res: Response) => {
+  const { actionType, payload } = req.body;
+  if (!actionType || !payload) {
+    return res.status(400).json({ error: 'actionType and payload are required' });
+  }
+  const item = enqueueSyncItem(actionType, payload);
+  res.json({ success: true, item });
+});
+
+app.get('/api/sync/status', (req: Request, res: Response) => {
+  const summary = getSyncStatusSummary();
+  res.json(summary);
+});
+
+app.post('/api/sync/process', (req: Request, res: Response) => {
+  const result = processPendingSyncQueue();
+  res.json({ success: true, ...result });
+});
+
+app.post('/api/qms/validate-barcode', (req: Request, res: Response) => {
+  const { barcode } = req.body;
+  const result = validateResinBarcode(barcode || '');
+  res.json(result);
+});
+
+app.post('/api/safety/rotor-lock-verify', (req: Request, res: Response) => {
+  const { turbineId, technicianName, pinEngagementConfirmed, nacelleWindSpeedMps, photoChecksum } = req.body;
+  const clearance = verifyRotorLockLoto({
+    turbineId: turbineId || 'GE-Cypress-T04',
+    technicianName: technicianName || 'Adrian Lewis',
+    pinEngagementConfirmed: Boolean(pinEngagementConfirmed),
+    nacelleWindSpeedMps: nacelleWindSpeedMps !== undefined ? Number(nacelleWindSpeedMps) : 6.4,
+    photoChecksum: photoChecksum || undefined,
+  });
+  res.json(clearance);
 });
 
 // Static Asset Delivery

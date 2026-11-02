@@ -79,6 +79,12 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
                 >
                   ★ DNV BIRR Certificate &amp; KPIs
                 </button>
+                <button
+                  onClick={() => onOpenModal('modal-mobile-sync')}
+                  className="block py-0.5 text-left text-rose-700 font-semibold hover:underline"
+                >
+                  ★ Mobile Sync &amp; Rotor LOTO Hub
+                </button>
               </div>
             </div>
           </div>
@@ -169,6 +175,12 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
           className="px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 text-[11px] font-semibold flex items-center gap-1"
         >
           <span>📜</span> DNV BIRR &amp; KPIs
+        </button>
+        <button
+          onClick={() => onOpenModal('modal-mobile-sync')}
+          className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 text-[11px] font-semibold flex items-center gap-1"
+        >
+          <span>📡</span> Mobile Sync &amp; LOTO
         </button>
       </div>
     </nav>
