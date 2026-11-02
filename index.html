@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GE Windmill Blade Field Service & Twin-Stream ERP Platform</title>
+  <title>Leading Edge FSM - Enterprise Wind Blade Platform</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     :root {
@@ -31,7 +31,6 @@
       background-image: radial-gradient(rgba(56, 189, 248, 0.15) 1px, transparent 1px);
       background-size: 16px 16px;
     }
-    /* Pulse glow */
     @keyframes pulseGlow {
       0%, 100% { opacity: 0.8; transform: scale(1); }
       50% { opacity: 1; transform: scale(1.15); }
@@ -41,16 +40,104 @@
     }
   </style>
 </head>
-<body class="p-3 sm:p-5 md:p-8 antialiased">
-  <div class="max-w-7xl mx-auto space-y-6">
+<body class="p-2 sm:p-4 md:p-6 antialiased">
+  <div class="max-w-[1400px] mx-auto space-y-4">
 
-    <!-- Top Global App Bar -->
-    <header class="bg-slate-900/90 backdrop-blur border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-2xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-      <div>
-        <div class="flex flex-wrap items-center gap-2.5">
-          <span class="px-3 py-1 rounded-xl bg-sky-500/20 text-sky-400 font-bold text-sm tracking-wide flex items-center gap-1.5">
-            <span>⚡</span> GE AeroBlade OS
+    <!-- Top Enterprise Navigation Bar (Leading Edge FSM Shell) -->
+    <nav class="bg-slate-900 border border-slate-800 rounded-2xl px-4 py-3 shadow-2xl flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-6">
+        <!-- Brand Logo -->
+        <div class="flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-600 to-cyan-400 flex items-center justify-center text-white font-black text-base shadow-lg shadow-sky-500/30">
+            ⚡
           </span>
+          <div>
+            <div class="font-extrabold text-sm text-white tracking-wide flex items-center gap-2">
+              Leading Edge FSM
+              <span class="text-[9px] px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-400 font-bold border border-sky-500/30 uppercase">v2026.2</span>
+            </div>
+            <div class="text-[10px] text-slate-400">Enterprise Wind Blade Field Services & Asset Platform</div>
+          </div>
+        </div>
+
+        <!-- Mega-Menu Triggers -->
+        <div class="hidden lg:flex items-center gap-1 text-slate-300 font-semibold">
+          <!-- Operations Dropdown Trigger -->
+          <div class="relative group">
+            <button class="px-3 py-1.5 rounded-lg hover:bg-slate-800 hover:text-white flex items-center gap-1 transition-all">
+              <span>Operations</span>
+              <span class="text-[10px] text-slate-400">▼</span>
+            </button>
+            <div class="absolute left-0 top-full mt-1.5 w-80 bg-slate-950 border border-slate-800 rounded-2xl p-3 shadow-2xl hidden group-hover:block z-50">
+              <div class="text-[10px] font-bold text-sky-400 uppercase tracking-wider mb-2">Operations Modules</div>
+              <div class="grid grid-cols-2 gap-2 text-[11px]">
+                <div class="space-y-1">
+                  <div class="font-bold text-slate-300">Time & PTO:</div>
+                  <a href="#stage-panel-1" class="block text-slate-400 hover:text-white py-0.5">Time Card Forms</a>
+                  <a href="#" onclick="openModal('modal-perdiem'); return false;" class="block text-amber-400 hover:text-amber-300 py-0.5">★ Per Diem & Plus Pay</a>
+                  <a href="#" class="block text-slate-400 hover:text-white py-0.5">Absence Card Approvals</a>
+                </div>
+                <div class="space-y-1">
+                  <div class="font-bold text-slate-300">Field Assets:</div>
+                  <a href="#" onclick="openModal('modal-taxonomy'); return false;" class="block text-cyan-400 hover:text-cyan-300 py-0.5">★ OEM Component Map</a>
+                  <a href="#stage-panel-3" class="block text-slate-400 hover:text-white py-0.5">0-80m Blade Canvas</a>
+                  <a href="#" onclick="openModal('modal-oracle'); return false;" class="block text-emerald-400 hover:text-emerald-300 py-0.5">★ Oracle Billing Feed</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Settings Dropdown Trigger -->
+          <div class="relative group">
+            <button class="px-3 py-1.5 rounded-lg hover:bg-slate-800 hover:text-white flex items-center gap-1 transition-all">
+              <span>Settings</span>
+              <span class="text-[10px] text-slate-400">▼</span>
+            </button>
+            <div class="absolute left-0 top-full mt-1.5 w-72 bg-slate-950 border border-slate-800 rounded-2xl p-3 shadow-2xl hidden group-hover:block z-50">
+              <div class="text-[10px] font-bold text-sky-400 uppercase tracking-wider mb-2">Master Settings</div>
+              <div class="space-y-1.5 text-[11px]">
+                <a href="#" onclick="openModal('modal-taxonomy'); return false;" class="block text-slate-300 hover:text-white">OEM Model & Component Mapping</a>
+                <a href="#" onclick="openModal('modal-doa'); return false;" class="block text-slate-300 hover:text-white">Delegation of Authority (DoA) Rules</a>
+                <a href="#" class="block text-slate-300 hover:text-white">Safety & Training Course Requirements</a>
+                <a href="#" class="block text-slate-300 hover:text-white">Timecard & Attendance Close Periods</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enhancement Highlights Button -->
+          <div class="flex items-center gap-1 pl-2 border-l border-slate-800">
+            <button onclick="openModal('modal-perdiem')" class="px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1 text-[11px] font-medium transition-all">
+              <span>💵</span> Per Diem & Plus Pay
+            </button>
+            <button onclick="openModal('modal-taxonomy')" class="px-2.5 py-1 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 flex items-center gap-1 text-[11px] font-medium transition-all">
+              <span>🧬</span> OEM Hierarchies
+            </button>
+            <button onclick="openModal('modal-oracle')" class="px-2.5 py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1 text-[11px] font-medium transition-all">
+              <span>📊</span> Oracle AR Feed
+            </button>
+            <button onclick="openModal('modal-doa')" class="px-2.5 py-1 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 flex items-center gap-1 text-[11px] font-medium transition-all">
+              <span>⚖️</span> DoA Matrix
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: User Roster Context -->
+      <div class="flex items-center gap-3">
+        <span class="hidden sm:flex text-[11px] items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950 border border-slate-800 text-slate-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>Lead Supervisor: R. Kathirvel</span>
+        </span>
+        <button onclick="toggleNetworkSimulation()" id="btn-net-toggle" class="text-[11px] px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 flex items-center gap-1">
+          <span>🔄</span> Offline Cache
+        </button>
+      </div>
+    </nav>
+
+    <!-- Context & Persona Selection Strip -->
+    <header class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+      <div>
+        <div class="flex flex-wrap items-center gap-2">
           <span id="network-pill" class="text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-medium flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             100% Offline-First (Local SQLite Active)
@@ -62,57 +149,36 @@
             Turbine: GE-Cypress-T04 (78.5m)
           </span>
         </div>
-        <h1 class="text-xl sm:text-2xl font-black text-white mt-1.5 tracking-tight">
-          Windmill Blade Field Operations & Twin-Stream Engine
+        <h1 class="text-lg sm:text-xl font-black text-white mt-1.5 tracking-tight">
+          Windmill Blade Field Operations & QMS Repair Architecture
         </h1>
-        <p class="text-xs sm:text-sm text-slate-400">
-          Industrial-grade composite maintenance, life-safety gatekeeper, 0–80m spatial canvas, and automated payroll/billing reconciliation.
+        <p class="text-xs text-slate-400">
+          End-to-end composite maintenance, pre-departure credential gating, 0–80m spatial canvas, and automated payroll/invoicing reconciliation.
         </p>
       </div>
 
-      <!-- Role Switcher Panel (Issue #2) -->
-      <div class="w-full lg:w-auto bg-slate-950/80 border border-slate-800 rounded-xl p-2.5 flex flex-col sm:flex-row items-start sm:items-center gap-2">
-        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-1">Role Persona:</span>
+      <!-- Role Persona Selector -->
+      <div class="w-full lg:w-auto bg-slate-950 border border-slate-800 rounded-xl p-2 flex flex-col sm:flex-row items-start sm:items-center gap-2">
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-1">Role Persona:</span>
         <div class="grid grid-cols-2 sm:flex gap-1.5 w-full sm:w-auto">
           <button onclick="switchRole('technician')" id="btn-role-technician" class="role-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-sky-600 text-white shadow-md flex items-center gap-1.5">
             <span>🧗</span> Tech (IRATA L3)
           </button>
           <button onclick="switchRole('client_lead')" id="btn-role-client_lead" class="role-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-slate-900 text-slate-300 hover:bg-slate-800 flex items-center gap-1.5">
-            <span>🏢</span> GE Site Lead
+            <span>🏢</span> Site Lead / PM
           </button>
           <button onclick="switchRole('hr_payroll')" id="btn-role-hr_payroll" class="role-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-slate-900 text-slate-300 hover:bg-slate-800 flex items-center gap-1.5">
             <span>👥</span> HR Payroll
           </button>
           <button onclick="switchRole('billing_ops')" id="btn-role-billing_ops" class="role-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-slate-900 text-slate-300 hover:bg-slate-800 flex items-center gap-1.5">
-            <span>💰</span> Billing Ops
+            <span>💰</span> Oracle Billing
           </button>
         </div>
       </div>
     </header>
 
-    <!-- Role Context Banner -->
-    <div id="role-context-card" class="bg-gradient-to-r from-sky-950/80 via-slate-900 to-slate-900 border border-sky-800/40 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-md">
-      <div class="flex items-center gap-3">
-        <span id="role-avatar" class="text-3xl p-2 bg-slate-800/80 rounded-xl border border-slate-700">🧗</span>
-        <div>
-          <div class="flex items-center gap-2">
-            <h2 id="role-heading" class="text-sm font-bold text-sky-300">Blade Repair Technician / Rope Access Supervisor (IRATA L3)</h2>
-            <span id="role-auth-tag" class="text-[10px] px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">Execution View</span>
-          </div>
-          <p id="role-summary" class="text-xs text-slate-300 mt-0.5">
-            Field execution focus: GWO credential verification, chemical batch shelf-life QR check, rotor lock LOTO, 0-80m blade damage mapping, and thermal curing logs.
-          </p>
-        </div>
-      </div>
-      <div class="flex items-center gap-2 self-end sm:self-center">
-        <button onclick="toggleNetworkSimulation()" id="btn-net-toggle" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 flex items-center gap-1.5">
-          <span>🔄</span> Toggle Offline/Online
-        </button>
-      </div>
-    </div>
-
-    <!-- Auto-Play Walkthrough Interactive Controller Bar (Issue #7) -->
-    <div id="autoplay-controller" class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-sky-500/40 rounded-2xl p-4 shadow-2xl space-y-3">
+    <!-- Auto-Play Walkthrough Interactive Controller Bar -->
+    <div id="autoplay-controller" class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-sky-500/40 rounded-2xl p-3.5 shadow-2xl space-y-2.5">
       <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3">
         
         <!-- Left: Status indicator & mode badge -->
@@ -163,10 +229,10 @@
     </div>
 
     <!-- Stepper Navigation Header (6 Stages) -->
-    <nav class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 shadow-xl overflow-x-auto">
+    <nav class="bg-slate-900 border border-slate-800 rounded-2xl p-2.5 shadow-xl overflow-x-auto">
       <div class="flex items-center justify-between min-w-[760px] gap-2">
         
-        <button onclick="navToStep(1)" id="step-btn-1" class="flex-1 text-left p-3 rounded-xl border border-slate-800 transition-all active-step-tab">
+        <button onclick="navToStep(1)" id="step-btn-1" class="flex-1 text-left p-2.5 rounded-xl border border-slate-800 transition-all active-step-tab">
           <div class="text-[10px] uppercase font-bold tracking-wider opacity-70">Stage 1</div>
           <div class="text-xs font-bold truncate">Pre-Departure Gate</div>
           <div class="text-[11px] opacity-75">GWO & Chemical Scan</div>
@@ -174,15 +240,15 @@
 
         <span class="text-slate-600 font-bold">→</span>
 
-        <button onclick="navToStep(2)" id="step-btn-2" class="flex-1 text-left p-3 rounded-xl border border-slate-800 transition-all opacity-80 hover:opacity-100">
+        <button onclick="navToStep(2)" id="step-btn-2" class="flex-1 text-left p-2.5 rounded-xl border border-slate-800 transition-all opacity-80 hover:opacity-100">
           <div class="text-[10px] uppercase font-bold tracking-wider opacity-70">Stage 2</div>
           <div class="text-xs font-bold truncate">LOTO & Weather</div>
-          <div class="text-[11px] opacity-75">Rotor Pin & Wind Telemetry</div>
+          <div class="text-[11px] opacity-75">Rotor Pin & Telemetry</div>
         </button>
 
         <span class="text-slate-600 font-bold">→</span>
 
-        <button onclick="navToStep(3)" id="step-btn-3" class="flex-1 text-left p-3 rounded-xl border border-slate-800 transition-all opacity-80 hover:opacity-100">
+        <button onclick="navToStep(3)" id="step-btn-3" class="flex-1 text-left p-2.5 rounded-xl border border-slate-800 transition-all opacity-80 hover:opacity-100">
           <div class="text-[10px] uppercase font-bold tracking-wider opacity-70">Stage 3</div>
           <div class="text-xs font-bold truncate">Blade Canvas (0-80m)</div>
           <div class="text-[11px] opacity-75">DNV Cat 1-5 Pinpoint</div>
@@ -190,52 +256,52 @@
 
         <span class="text-slate-600 font-bold">→</span>
 
-        <button onclick="navToStep(4)" id="step-btn-4" class="flex-1 text-left p-3 rounded-xl border border-slate-800 transition-all opacity-80 hover:opacity-100">
+        <button onclick="navToStep(4)" id="step-btn-4" class="flex-1 text-left p-2.5 rounded-xl border border-slate-800 transition-all opacity-80 hover:opacity-100">
           <div class="text-[10px] uppercase font-bold tracking-wider opacity-70">Stage 4</div>
-          <div class="text-xs font-bold truncate">Composite Scarf Log</div>
-          <div class="text-[11px] opacity-75">50:1 Bevel & Thermal Cure</div>
+          <div class="text-xs font-bold truncate">QMS Composite Scarf</div>
+          <div class="text-[11px] opacity-75">50:1 Bevel & Cure Log</div>
         </button>
 
         <span class="text-slate-600 font-bold">→</span>
 
-        <button onclick="navToStep(5)" id="step-btn-5" class="flex-1 text-left p-3 rounded-xl border border-slate-800 transition-all opacity-80 hover:opacity-100">
+        <button onclick="navToStep(5)" id="step-btn-5" class="flex-1 text-left p-2.5 rounded-xl border border-slate-800 transition-all opacity-80 hover:opacity-100">
           <div class="text-[10px] uppercase font-bold tracking-wider opacity-70">Stage 5</div>
-          <div class="text-xs font-bold truncate">GE Sign-Off & BIRR</div>
+          <div class="text-xs font-bold truncate">Sign-Off & BIRR</div>
           <div class="text-[11px] opacity-75">E-Sign & Handover</div>
         </button>
 
         <span class="text-slate-600 font-bold">→</span>
 
-        <button onclick="navToStep(6)" id="step-btn-6" class="flex-1 text-left p-3 rounded-xl border border-slate-800 transition-all opacity-80 hover:opacity-100">
+        <button onclick="navToStep(6)" id="step-btn-6" class="flex-1 text-left p-2.5 rounded-xl border border-slate-800 transition-all opacity-80 hover:opacity-100">
           <div class="text-[10px] uppercase font-bold tracking-wider opacity-70">Stage 6</div>
           <div class="text-xs font-bold truncate">Twin-Stream Engine</div>
-          <div class="text-[11px] opacity-75">Payroll vs Invoicing</div>
+          <div class="text-[11px] opacity-75">Payroll vs Oracle Invoicing</div>
         </button>
 
       </div>
     </nav>
 
     <!-- Main Active Workspace Card -->
-    <main class="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-7 shadow-2xl space-y-6">
+    <main class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-2xl space-y-6">
 
       <!-- Fast-Track Client Acceleration Bar -->
-      <div class="bg-slate-950/80 border border-amber-500/30 p-3.5 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-inner">
+      <div class="bg-slate-950 border border-amber-500/30 p-3 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-inner">
         <div class="flex items-center gap-2.5">
           <span class="text-amber-400 text-xl">⚡</span>
           <div>
             <span class="text-xs font-bold text-amber-300">Client Demo Accelerator:</span>
-            <span class="text-xs text-slate-300 block sm:inline">Check each domain field manually, or click "Assume Data Ready" to auto-simulate verified field handover.</span>
+            <span class="text-xs text-slate-300 block sm:inline">Auto-simulates verified field data handover across any stage with one click.</span>
           </div>
         </div>
-        <button onclick="triggerSelectAllCurrentStage()" class="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-amber-500/20 to-amber-600/20 hover:from-amber-500/30 hover:to-amber-600/30 text-amber-300 border border-amber-500/50 rounded-lg text-xs font-bold tracking-wide transition-all shadow-sm flex items-center justify-center gap-1.5">
+        <button onclick="triggerSelectAllCurrentStage()" class="w-full sm:w-auto px-4 py-1.5 bg-gradient-to-r from-amber-500/20 to-amber-600/20 hover:from-amber-500/30 text-amber-300 border border-amber-500/50 rounded-lg text-xs font-bold tracking-wide transition-all shadow-sm flex items-center justify-center gap-1.5">
           <span>✓</span> Select All / Assume Data Ready
         </button>
       </div>
 
       <!-- ================================================================ -->
-      <!-- STAGE 1: PRE-DEPARTURE VERIFICATION (Issue #3)                     -->
+      <!-- STAGE 1: PRE-DEPARTURE VERIFICATION (GWO & Chemical Scan)          -->
       <!-- ================================================================ -->
-      <section id="stage-panel-1" class="stage-panel space-y-6">
+      <section id="stage-panel-1" class="stage-panel space-y-5">
         <div class="border-b border-slate-800 pb-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <div>
             <h2 class="text-lg font-black text-white flex items-center gap-2">
@@ -250,10 +316,10 @@
           </span>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
           
           <!-- GWO / IRATA Badge Gate -->
-          <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3.5">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
             <div class="flex justify-between items-center">
               <h3 class="text-xs font-extrabold text-slate-200 uppercase tracking-wider flex items-center gap-2">
                 <span>🛡️</span> GWO & IRATA Personnel Certifications
@@ -287,7 +353,7 @@
           </div>
 
           <!-- Chemical Shelf-Life QR Batch Scanner -->
-          <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3.5">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
             <div class="flex justify-between items-center">
               <h3 class="text-xs font-extrabold text-slate-200 uppercase tracking-wider flex items-center gap-2">
                 <span>📦</span> Chemical Lot Shelf-Life & Hardware QR Verification
@@ -331,11 +397,10 @@
         </div>
       </section>
 
-
       <!-- ================================================================ -->
-      <!-- STAGE 2: ON-SITE ARRIVAL & LOTO GUARD (Issue #4)                 -->
+      <!-- STAGE 2: ON-SITE ARRIVAL & LOTO GUARD                            -->
       <!-- ================================================================ -->
-      <section id="stage-panel-2" class="stage-panel hidden space-y-6">
+      <section id="stage-panel-2" class="stage-panel hidden space-y-5">
         <div class="border-b border-slate-800 pb-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <div>
             <h2 class="text-lg font-black text-white flex items-center gap-2">
@@ -350,7 +415,7 @@
           </span>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
           
           <!-- Live Weather Anemometer Feed -->
           <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
@@ -410,7 +475,7 @@
                     Yaw, Pitch & Converter Switchgear Isolated & Padlocked
                     <span class="text-[10px] px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300">Lockout #LK-9021</span>
                   </div>
-                  <div class="text-[11px] text-slate-400">Physical lockout tags countersigned by GE Wind Farm Shift Controller.</div>
+                  <div class="text-[11px] text-slate-400">Physical lockout tags countersigned by Site Operations Lead.</div>
                 </div>
               </label>
             </div>
@@ -426,25 +491,22 @@
         </div>
       </section>
 
-
       <!-- ================================================================ -->
-      <!-- STAGE 3: INTERACTIVE BLADE CANVAS 0-80M (Issue #5)               -->
+      <!-- STAGE 3: INTERACTIVE BLADE CANVAS 0-80M                          -->
       <!-- ================================================================ -->
-      <section id="stage-panel-3" class="stage-panel hidden space-y-6">
+      <section id="stage-panel-3" class="stage-panel hidden space-y-5">
         <div class="border-b border-slate-800 pb-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <div>
             <h2 class="text-lg font-black text-white flex items-center gap-2">
               <span>📐</span> Stage 3: Interactive 2D Blade Canvas (Span 0.0m to 78.5m)
             </h2>
             <p class="text-xs text-slate-400">
-              Interactive spatial coordinate unwrap. Click on any meter span to log DNV Category 1 to 5 damage with photos and tap-test data.
+              Interactive spatial coordinate unwrap. Click on any meter span to log DNV Category 1 to 5 damage with photos, scale ruler, and core moisture data.
             </p>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="text-xs px-2.5 py-1 bg-indigo-950 text-indigo-300 border border-indigo-800 rounded-md font-semibold">
-              Spatial Resolution: 0.1m
-            </span>
-          </div>
+          <span class="text-xs px-2.5 py-1 bg-indigo-950 text-indigo-300 border border-indigo-800 rounded-md font-semibold">
+            Spatial Resolution: 0.1m
+          </span>
         </div>
 
         <!-- Face Selector Tabs -->
@@ -476,7 +538,6 @@
           <!-- Interactive Blade SVG Geometry -->
           <div id="blade-canvas-container" class="relative w-full h-32 bg-slate-900/90 rounded-xl border border-slate-700/80 flex items-center px-4 cursor-crosshair select-none" onclick="handleBladeCanvasClick(event)">
             
-            <!-- Blade Outer Profile (SVG) -->
             <svg class="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none" viewBox="0 0 1000 120">
               <defs>
                 <linearGradient id="bladeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -486,9 +547,7 @@
                   <stop offset="100%" stop-color="#1e293b" stop-opacity="0.6"/>
                 </linearGradient>
               </defs>
-              <!-- Aerodynamic airfoil unwrap silhouette -->
               <path d="M 20,20 C 120,5 250,5 980,50 L 980,70 C 250,115 120,115 20,100 Z" fill="url(#bladeGrad)" stroke="#64748b" stroke-width="2"/>
-              <!-- Span gridlines (Every 10m) -->
               <line x1="140" y1="15" x2="140" y2="105" stroke="#475569" stroke-dasharray="3,3" stroke-width="1"/>
               <line x1="260" y1="12" x2="260" y2="108" stroke="#475569" stroke-dasharray="3,3" stroke-width="1"/>
               <line x1="380" y1="18" x2="380" y2="102" stroke="#475569" stroke-dasharray="3,3" stroke-width="1"/>
@@ -552,7 +611,7 @@
             </div>
             <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
               <div class="text-slate-400 text-[11px]">Physical Scale Ruler:</div>
-              <div class="font-bold text-emerald-400 text-sm">✓ In Photo (GE Standard)</div>
+              <div class="font-bold text-emerald-400 text-sm">✓ In Photo (OEM Standard)</div>
             </div>
             <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
               <div class="text-slate-400 text-[11px]">Sandwich Core Moisture:</div>
@@ -572,20 +631,19 @@
         <div class="flex justify-between pt-2">
           <button onclick="navToStep(2)" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">← Back</button>
           <button onclick="advanceStage(3)" id="btn-advance-3" class="px-6 py-2.5 bg-sky-600 text-white rounded-xl text-xs font-bold flex items-center gap-2 opacity-40 cursor-not-allowed transition-all" disabled>
-            <span>Proceed to Composite Scarf & Curing Engine</span> →
+            <span>Proceed to QMS Scarf & Curing Engine</span> →
           </button>
         </div>
       </section>
 
-
       <!-- ================================================================ -->
-      <!-- STAGE 4: COMPOSITE SCARF & THERMAL CURE LOG                       -->
+      <!-- STAGE 4: QMS COMPOSITE SCARF & THERMAL CURE LOG                  -->
       <!-- ================================================================ -->
-      <section id="stage-panel-4" class="stage-panel hidden space-y-6">
+      <section id="stage-panel-4" class="stage-panel hidden space-y-5">
         <div class="border-b border-slate-800 pb-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <div>
             <h2 class="text-lg font-black text-white flex items-center gap-2">
-              <span>🧪</span> Stage 4: Composite Scarf (50:1), Vacuum Bagging & Thermal Cure Logger
+              <span>🧪</span> Stage 4: QMS Composite Scarf (50:1), Vacuum Bagging & Thermal Cure Logger
             </h2>
             <p class="text-xs text-slate-400">
               DNV-GL structural compliance: 50:1 step taper ratio, -0.85 bar vacuum drop test, and thermocouple ramp/dwell/cool-down cycle.
@@ -596,7 +654,7 @@
           </span>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
           
           <!-- Scarfing Calculator & Ply Matrix -->
           <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
@@ -679,15 +737,14 @@
         </div>
       </section>
 
-
       <!-- ================================================================ -->
-      <!-- STAGE 5: GE SITE SIGN-OFF & BIRR HANDOVER                         -->
+      <!-- STAGE 5: SIGN-OFF & BIRR HANDOVER                                -->
       <!-- ================================================================ -->
-      <section id="stage-panel-5" class="stage-panel hidden space-y-6">
+      <section id="stage-panel-5" class="stage-panel hidden space-y-5">
         <div class="border-b border-slate-800 pb-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <div>
             <h2 class="text-lg font-black text-white flex items-center gap-2">
-              <span>✍️</span> Stage 5: GE Site Lead Sign-off & BIRR PDF Compilation
+              <span>✍️</span> Stage 5: Site Lead Sign-off & BIRR PDF Compilation
             </h2>
             <p class="text-xs text-slate-400">
               Official Blade Inspection & Repair Report (BIRR) generation with cryptographic digital signature and LOTO de-tagging clearance.
@@ -702,25 +759,25 @@
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-800/80 pb-3">
             <div>
               <div class="text-sm font-bold text-white flex items-center gap-2">
-                BIRR Package: #BIRR-GE-2026-T04-B
+                BIRR Package: #BIRR-2026-T04-B
                 <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">DNV-GL Compliant</span>
               </div>
-              <div class="text-xs text-slate-400">Asset: GE 3.8-130 Turbine T04 | Muppandal Wind Farm | Blade Serial: #BLD-8849-B</div>
+              <div class="text-xs text-slate-400">Asset: Turbine T04 | Wind Farm: Muppandal Valley | Blade Serial: #BLD-8849-B</div>
             </div>
             <button onclick="simulatePdfDownload()" class="text-xs px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold flex items-center gap-1.5 shadow">
-              <span>📄</span> Export BIRR PDF
+              <span>📄</span> Export BIRR PDF Package
             </button>
           </div>
 
           <!-- Digital Signature Box -->
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
             <div class="flex justify-between items-center text-xs">
-              <span class="text-slate-300 font-bold">GE Client Site Representative E-Signature:</span>
-              <span class="text-slate-500 font-mono">Timestamp: 2026-11-02 02:58 UTC</span>
+              <span class="text-slate-300 font-bold">Client Site Representative E-Signature:</span>
+              <span class="text-slate-500 font-mono">Timestamp: 2026-11-02 21:55 UTC</span>
             </div>
             <div class="h-20 w-full border border-dashed border-slate-700 rounded-lg flex items-center justify-center bg-slate-950/60">
               <span class="font-serif italic text-sky-400 text-xl tracking-wider select-none">
-                Alexandre V. - GE Site Representative (PIN: #4902 Authorized)
+                Alexandre V. - Client Site Representative (PIN: #4902 Authorized)
               </span>
             </div>
           </div>
@@ -742,15 +799,14 @@
         </div>
       </section>
 
-
       <!-- ================================================================ -->
-      <!-- STAGE 6: TWIN-STREAM RECONCILIATION ENGINE                        -->
+      <!-- STAGE 6: TWIN-STREAM RECONCILIATION & ORACLE INVOICING           -->
       <!-- ================================================================ -->
-      <section id="stage-panel-6" class="stage-panel hidden space-y-6">
+      <section id="stage-panel-6" class="stage-panel hidden space-y-5">
         <div class="border-b border-slate-800 pb-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <div>
             <h2 class="text-lg font-black text-white flex items-center gap-2">
-              <span>⚡</span> Stage 6: Automated Twin-Stream Engine (Payroll vs Billing)
+              <span>⚡</span> Stage 6: Automated Twin-Stream Engine (Payroll vs Oracle Invoicing)
             </h2>
             <p class="text-xs text-slate-400">
               Zero billing disputes: A single field sign-off automatically forks into internal technician payroll and external client billing.
@@ -761,80 +817,84 @@
           </span>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
-          <!-- STREAM A: HR PAYROLL -->
-          <div class="bg-gradient-to-br from-slate-950 to-sky-950/40 border border-sky-800/40 rounded-2xl p-5 space-y-4 shadow-xl">
+          <!-- STREAM A: HR PAYROLL (Per Diem & Plus Hazard Included) -->
+          <div class="bg-gradient-to-br from-slate-950 to-sky-950/40 border border-sky-800/40 rounded-2xl p-5 space-y-3.5 shadow-xl">
             <div class="flex items-center justify-between border-b border-sky-800/40 pb-3">
               <div class="flex items-center gap-2.5">
                 <span class="p-2 rounded-xl bg-sky-500/20 text-sky-400 text-base">👤</span>
                 <div>
                   <h3 class="text-sm font-black text-sky-300">STREAM A: Technician Payroll</h3>
-                  <div class="text-[11px] text-slate-400">Automated Export: Workday / ADP</div>
+                  <div class="text-[11px] text-slate-400">Workforce Time, Per Diem & Plus Pay Export</div>
                 </div>
               </div>
-              <span class="text-xs px-2.5 py-1 rounded bg-sky-500/20 text-sky-300 font-bold border border-sky-500/30">Internal HR</span>
+              <button onclick="openModal('modal-perdiem')" class="text-xs px-2.5 py-1 rounded bg-sky-500/20 text-sky-300 font-bold border border-sky-500/30 hover:bg-sky-500/30 transition-all">
+                Config Rules ⚙
+              </button>
             </div>
 
             <div class="space-y-2 text-xs">
-              <div class="flex justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div class="flex justify-between p-2 rounded-lg bg-slate-900 border border-slate-800">
                 <span class="text-slate-300">Base Travel Time (2.5 hrs @ $45.00/hr)</span>
                 <span class="font-bold text-white font-mono">$112.50</span>
               </div>
-              <div class="flex justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
-                <span class="text-slate-300">Tower Climbing Hazard Pay (6.5 hrs @ $70.00/hr)</span>
-                <span class="font-bold text-white font-mono">$455.00</span>
+              <div class="flex justify-between p-2 rounded-lg bg-slate-900 border border-slate-800">
+                <span class="text-slate-300">High-Angle Plus Hazard Pay (6.5 hrs @ $70.00/hr)</span>
+                <span class="font-bold text-amber-300 font-mono">$455.00</span>
               </div>
-              <div class="flex justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div class="flex justify-between p-2 rounded-lg bg-slate-900 border border-slate-800">
                 <span class="text-slate-300">Weather Standby Guaranteed Pay (1.5 hrs @ $45.00/hr)</span>
                 <span class="font-bold text-white font-mono">$67.50</span>
               </div>
-              <div class="flex justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
-                <span class="text-slate-300">Daily Per-Diem (Lodging & Meal Stipend)</span>
-                <span class="font-bold text-white font-mono">$120.00</span>
+              <div class="flex justify-between p-2 rounded-lg bg-slate-900 border border-slate-800">
+                <span class="text-slate-300">Daily Per-Diem Stipend (Lodging & Meals)</span>
+                <span class="font-bold text-emerald-400 font-mono">$120.00</span>
               </div>
             </div>
 
-            <div class="pt-3 border-t border-sky-800/50 flex justify-between items-center">
+            <div class="pt-2 border-t border-sky-800/50 flex justify-between items-center">
               <span class="text-xs font-bold text-sky-300 uppercase tracking-wider">Total Payable to Technician:</span>
               <span class="text-xl font-black text-emerald-400 font-mono">$755.00</span>
             </div>
           </div>
 
-          <!-- STREAM B: GE CLIENT BILLING -->
-          <div class="bg-gradient-to-br from-slate-950 to-indigo-950/40 border border-indigo-800/40 rounded-2xl p-5 space-y-4 shadow-xl">
+          <!-- STREAM B: ORACLE ERP CLIENT INVOICING -->
+          <div class="bg-gradient-to-br from-slate-950 to-indigo-950/40 border border-indigo-800/40 rounded-2xl p-5 space-y-3.5 shadow-xl">
             <div class="flex items-center justify-between border-b border-indigo-800/40 pb-3">
               <div class="flex items-center gap-2.5">
                 <span class="p-2 rounded-xl bg-indigo-500/20 text-indigo-400 text-base">🏢</span>
                 <div>
-                  <h3 class="text-sm font-black text-indigo-300">STREAM B: GE Client Billing</h3>
-                  <div class="text-[11px] text-slate-400">Automated Export: SAP S/4HANA ERP</div>
+                  <h3 class="text-sm font-black text-indigo-300">STREAM B: Oracle ERP Invoicing</h3>
+                  <div class="text-[11px] text-slate-400">Accounts Receivable Automated Export</div>
                 </div>
               </div>
-              <span class="text-xs px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300 font-bold border border-indigo-500/30">Client Invoicing</span>
+              <button onclick="openModal('modal-oracle')" class="text-xs px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300 font-bold border border-indigo-500/30 hover:bg-indigo-500/30 transition-all">
+                View JSON 📄
+              </button>
             </div>
 
             <div class="space-y-2 text-xs">
-              <div class="flex justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div class="flex justify-between p-2 rounded-lg bg-slate-900 border border-slate-800">
                 <span class="text-slate-300">IRATA L3 Lead Labor (6.5 hrs @ $195.00/hr)</span>
                 <span class="font-bold text-white font-mono">$1,267.50</span>
               </div>
-              <div class="flex justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div class="flex justify-between p-2 rounded-lg bg-slate-900 border border-slate-800">
                 <span class="text-slate-300">Contractual Weather Standby (1.5 hrs @ $90.00/hr)</span>
                 <span class="font-bold text-white font-mono">$135.00</span>
               </div>
-              <div class="flex justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div class="flex justify-between p-2 rounded-lg bg-slate-900 border border-slate-800">
                 <span class="text-slate-300">Consumables (Epoxy & Triax: $240.00 + 18% markup)</span>
                 <span class="font-bold text-white font-mono">$283.20</span>
               </div>
-              <div class="flex justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <div class="flex justify-between p-2 rounded-lg bg-slate-900 border border-slate-800">
                 <span class="text-slate-300">Skylift Pass-through ($450.00 + 10% handling fee)</span>
                 <span class="font-bold text-white font-mono">$495.00</span>
               </div>
             </div>
 
-            <div class="pt-3 border-t border-indigo-800/50 flex justify-between items-center">
-              <span class="text-xs font-bold text-indigo-300 uppercase tracking-wider">Total Invoice to GE Asset Owner:</span>
+            <div class="pt-2 border-t border-indigo-800/50 flex justify-between items-center">
+              <span class="text-xs font-bold text-indigo-300 uppercase tracking-wider">Total Oracle Client Invoice:</span>
               <span class="text-xl font-black text-emerald-400 font-mono">$2,180.70</span>
             </div>
           </div>
@@ -847,12 +907,17 @@
             <span class="text-2xl p-2 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/30">📈</span>
             <div>
               <div class="text-xs font-black text-slate-200">Reconciled Gross Margin: $1,425.70 (65.4%)</div>
-              <div class="text-[11px] text-slate-400">Zero labor discrepancies. All time entries match cryptographic BIRR sign-off.</div>
+              <div class="text-[11px] text-slate-400">Zero labor discrepancies. All time entries match cryptographic BIRR sign-off and Oracle AR PO.</div>
             </div>
           </div>
-          <button onclick="navToStep(1)" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-sky-400 rounded-lg text-xs font-bold transition-all">
-            ↻ Restart Flow Simulation
-          </button>
+          <div class="flex gap-2">
+            <button onclick="openModal('modal-doa')" class="px-3 py-1.5 bg-purple-600/30 hover:bg-purple-600/50 text-purple-300 border border-purple-500/40 rounded-lg text-xs font-bold">
+              ⚖️ Review DoA Approval
+            </button>
+            <button onclick="navToStep(1)" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-sky-400 rounded-lg text-xs font-bold transition-all">
+              ↻ Restart Flow
+            </button>
+          </div>
         </div>
       </section>
 
@@ -860,9 +925,214 @@
 
   </div>
 
+  <!-- ================================================================= -->
+  <!-- MODAL 1: PER DIEM & PLUS PAYMENTS CONFIGURATOR                     -->
+  <!-- ================================================================= -->
+  <div id="modal-perdiem" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="p-2 rounded-xl bg-amber-500/20 text-amber-400 text-lg">💵</span>
+          <div>
+            <h3 class="text-base font-black text-white">Workforce Time: Per Diem & Plus Pay Engine</h3>
+            <p class="text-xs text-slate-400">Calculates automated hazard allowances and lodging stipends per technician</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-perdiem')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-1.5">
+          <div class="flex justify-between font-bold text-amber-300">
+            <span>High-Angle Rope / Tower Climbing "Plus Pay"</span>
+            <span>+$25.00 / hr differential</span>
+          </div>
+          <p class="text-slate-400 text-[11px]">Applied when technician is actively hooked on ropes above 15 meters or performing rotor blade work.</p>
+        </div>
+
+        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-1.5">
+          <div class="flex justify-between font-bold text-emerald-300">
+            <span>Out-of-Town Per Diem (Meal & Lodging Stipend)</span>
+            <span>$120.00 / day flat</span>
+          </div>
+          <p class="text-slate-400 text-[11px]">Auto-applied for sites located &gt; 50 miles from home depot. No receipts required.</p>
+        </div>
+
+        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-1.5">
+          <div class="flex justify-between font-bold text-sky-300">
+            <span>Guaranteed Weather Standby Pay</span>
+            <span>100% Base Rate ($45.00/hr)</span>
+          </div>
+          <p class="text-slate-400 text-[11px]">Compensates technicians during high-wind (&gt;10 m/s) or rain holds while waiting on site.</p>
+        </div>
+      </div>
+
+      <div class="flex justify-end pt-2">
+        <button onclick="closeModal('modal-perdiem')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- MODAL 2: OEM BLADE COMPONENT TAXONOMY BROWSER                     -->
+  <!-- ================================================================= -->
+  <div id="modal-taxonomy" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="p-2 rounded-xl bg-cyan-500/20 text-cyan-400 text-lg">🧬</span>
+          <div>
+            <h3 class="text-base font-black text-white">Asset Management: OEM Model & Component Taxonomy</h3>
+            <p class="text-xs text-slate-400">Multi-tier hierarchy from OEM turbine down to sub-component laminate layer</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-taxonomy')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+
+      <div class="space-y-2 text-xs font-mono">
+        <div class="p-2.5 bg-slate-950 rounded-lg border border-slate-800 flex items-center gap-2">
+          <span class="text-slate-500">OEM:</span>
+          <span class="text-white font-bold">GE Wind Energy</span>
+          <span class="text-slate-600">→</span>
+          <span class="text-slate-500">Model:</span>
+          <span class="text-cyan-300 font-bold">Cypress 3.8-130</span>
+        </div>
+        <div class="p-2.5 bg-slate-950 rounded-lg border border-slate-800 flex items-center gap-2 pl-6">
+          <span class="text-slate-500">Component:</span>
+          <span class="text-white font-bold">AeroBlade 78.5m</span>
+          <span class="text-slate-600">→</span>
+          <span class="text-slate-500">Sub-Assembly:</span>
+          <span class="text-sky-300 font-bold">Suction Side (SS) Shell</span>
+        </div>
+        <div class="p-2.5 bg-slate-950 rounded-lg border border-slate-800 flex items-center gap-2 pl-12 text-[11px]">
+          <span class="text-slate-500">Hierarchy:</span>
+          <span class="text-slate-300">Carbon Spar Cap • Balsa/PVC Core Sandwich • LPS Receptor Cable</span>
+        </div>
+      </div>
+
+      <div class="flex justify-end pt-2">
+        <button onclick="closeModal('modal-taxonomy')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- MODAL 3: ORACLE ERP INVOICING PAYLOAD INSPECTOR                    -->
+  <!-- ================================================================= -->
+  <div id="modal-oracle" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 text-lg">📊</span>
+          <div>
+            <h3 class="text-base font-black text-white">Oracle ERP Integration: Accounts Receivable Payload</h3>
+            <p class="text-xs text-slate-400">Automated outbound JSON generated from field repair event for Oracle AR</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-oracle')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+
+      <pre class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-[11px] font-mono text-emerald-400 overflow-x-auto max-h-64">
+{
+  "sourceSystem": "LeadingEdge_FSM",
+  "invoiceNumber": "INV-2026-T04-091",
+  "purchaseOrderNumber": "PO-GE-99410",
+  "customerAccount": "CUST-GE-WIND-01",
+  "currency": "USD",
+  "invoiceTotal": 2180.70,
+  "lines": [
+    {
+      "lineNumber": 1,
+      "description": "IRATA L3 Composite Repair Lead Labor",
+      "quantityHours": 6.5,
+      "unitRate": 195.00,
+      "lineTotal": 1267.50
+    },
+    {
+      "lineNumber": 2,
+      "description": "Billable Weather Standby Hold (Anemometer > 10m/s)",
+      "quantityHours": 1.5,
+      "unitRate": 90.00,
+      "lineTotal": 135.00
+    },
+    {
+      "lineNumber": 3,
+      "description": "Composite Resin & Triaxial Fabric (+18% markup)",
+      "lineTotal": 283.20
+    },
+    {
+      "lineNumber": 4,
+      "description": "100m Skylift Pass-through (+10% handling fee)",
+      "lineTotal": 495.00
+    }
+  ]
+}
+      </pre>
+
+      <div class="flex justify-end pt-2">
+        <button onclick="closeModal('modal-oracle')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- MODAL 4: DELEGATION OF AUTHORITY (DoA) APPROVAL MATRIX            -->
+  <!-- ================================================================= -->
+  <div id="modal-doa" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="p-2 rounded-xl bg-purple-500/20 text-purple-400 text-lg">⚖️</span>
+          <div>
+            <h3 class="text-base font-black text-white">Delegation of Authority (DoA) Approval Matrix</h3>
+            <p class="text-xs text-slate-400">Hierarchical sign-off requirements for quotes, repair orders, and invoices</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-doa')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+
+      <div class="space-y-2.5 text-xs">
+        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between items-center">
+          <div>
+            <div class="font-bold text-white">Tier 1: Site Supervisor (Up to $5,000)</div>
+            <div class="text-[11px] text-slate-400">Covers Cat 1-3 minor repairs, consumables, and travel timecards.</div>
+          </div>
+          <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold">Auto-Approved ($2,180.70)</span>
+        </div>
+
+        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between items-center opacity-60">
+          <div>
+            <div class="font-bold text-white">Tier 2: Project Manager ($5,000 – $25,000)</div>
+            <div class="text-[11px] text-slate-400">Covers Cat 4 structural repairs, Skylift crane rentals, and major weather claims.</div>
+          </div>
+          <span class="text-slate-500">Not Required</span>
+        </div>
+
+        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between items-center opacity-60">
+          <div>
+            <div class="font-bold text-white">Tier 3: VP Operations (&gt; $25,000)</div>
+            <div class="text-[11px] text-slate-400">Covers blade replacement, catastrophic fractures (Cat 5), and master tender bids.</div>
+          </div>
+          <span class="text-slate-500">Not Required</span>
+        </div>
+      </div>
+
+      <div class="flex justify-end pt-2">
+        <button onclick="closeModal('modal-doa')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Client-side Interactive Logic -->
   <script>
-    // State Store (Local persistence simulation)
     const state = {
       role: 'technician',
       step: 1,
@@ -875,39 +1145,21 @@
 
     const rolesConfig = {
       technician: {
-        title: "Blade Repair Technician / Rope Access Supervisor (IRATA L3)",
-        avatar: "🧗",
-        tag: "Execution View",
-        desc: "Field execution focus: GWO credential verification, chemical batch shelf-life QR check, rotor lock LOTO, 0-80m blade damage mapping, and thermal curing logs.",
         step: 1
       },
       client_lead: {
-        title: "GE Site Representative / Asset Owner Controller",
-        avatar: "🏢",
-        tag: "Authorization View",
-        desc: "Focus: Approving BIRR technical report, verifying LOTO release, validating DNV Cat 1-5 structural evaluations, and cryptographic e-signature.",
         step: 5
       },
       hr_payroll: {
-        title: "HR & Technician Payroll Administrator",
-        avatar: "👥",
-        tag: "Internal Payroll View",
-        desc: "Focus: Stream A review - base travel time, high-altitude climbing hazard pay, guaranteed weather standby, and per-diem allowances.",
         step: 6
       },
       billing_ops: {
-        title: "Commercial Finance & Billing Specialist",
-        avatar: "💰",
-        tag: "Client Invoicing View",
-        desc: "Focus: Stream B review - contractual MSA rate cards ($195/hr for L3), warranty vs client asset owner liability split, and materials markup.",
         step: 6
       }
     };
 
     function switchRole(roleKey) {
       state.role = roleKey;
-      
-      // Update Button Styles
       document.querySelectorAll('.role-btn').forEach(btn => {
         btn.classList.remove('bg-sky-600', 'text-white', 'shadow-md');
         btn.classList.add('bg-slate-900', 'text-slate-300');
@@ -917,15 +1169,7 @@
         activeBtn.classList.add('bg-sky-600', 'text-white', 'shadow-md');
         activeBtn.classList.remove('bg-slate-900', 'text-slate-300');
       }
-
-      // Update Header Context
-      const cfg = rolesConfig[roleKey];
-      document.getElementById('role-heading').innerText = cfg.title;
-      document.getElementById('role-avatar').innerText = cfg.avatar;
-      document.getElementById('role-auth-tag').innerText = cfg.tag;
-      document.getElementById('role-summary').innerText = cfg.desc;
-
-      navToStep(cfg.step);
+      navToStep(rolesConfig[roleKey].step);
     }
 
     function navToStep(stepNum) {
@@ -935,7 +1179,6 @@
         autoPlayer.updateUI();
       }
 
-      // Show/hide screen panels
       document.querySelectorAll('.stage-panel').forEach((panel, idx) => {
         if (idx + 1 === stepNum) {
           panel.classList.remove('hidden');
@@ -944,7 +1187,6 @@
         }
       });
 
-      // Update Stepper Navigation
       for (let i = 1; i <= 6; i++) {
         const btn = document.getElementById(`step-btn-${i}`);
         if (!btn) continue;
@@ -1081,7 +1323,6 @@
       marker.style.transform = 'translate(-50%, -50%)';
       marker.classList.remove('hidden');
 
-      // Update inspector for new point
       document.getElementById('defect-cat-badge').innerText = "DNV Category 2 (Surface Wear)";
       document.getElementById('defect-cat-badge').className = "text-xs px-2.5 py-1 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold";
       document.getElementById('defect-coords').innerText = `Span: ${computedSpanMeters}m | Face: ${state.activeFace}`;
@@ -1112,7 +1353,18 @@
       alert("Exporting BIRR (Blade Inspection & Repair Report) PDF with cryptographic hash verification...");
     }
 
-    // Automated Walkthrough Controller (Issue #7)
+    // Modal Manager
+    function openModal(modalId) {
+      const el = document.getElementById(modalId);
+      if (el) el.classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+      const el = document.getElementById(modalId);
+      if (el) el.classList.add('hidden');
+    }
+
+    // Auto-Player Walkthrough Controller
     const autoPlayer = {
       isPlaying: true,
       delayMs: 1500,
@@ -1122,9 +1374,9 @@
         "Stage 1 of 6: Pre-Departure Gate & Chemical Scan",
         "Stage 2 of 6: On-Site Geofence, LOTO Lock & Wind Telemetry",
         "Stage 3 of 6: Interactive 0-80m Blade Canvas & NDT Tap-Test",
-        "Stage 4 of 6: 50:1 Scarf Ratio & Thermal Curing Log",
-        "Stage 5 of 6: GE Site Lead Digital E-Signature & BIRR",
-        "Stage 6 of 6: Automated Twin-Stream (Payroll vs Invoicing)"
+        "Stage 4 of 6: QMS 50:1 Scarf Ratio & Thermal Curing Log",
+        "Stage 5 of 6: Site Lead Digital E-Signature & BIRR",
+        "Stage 6 of 6: Automated Twin-Stream (Payroll vs Oracle Invoicing)"
       ],
 
       init() {
@@ -1169,10 +1421,8 @@
         this.timerId = setTimeout(() => {
           if (!this.isPlaying) return;
 
-          // 1. Simulate verified stage action
           triggerSelectAllCurrentStage();
 
-          // 2. Advance step
           if (this.currentStep < 6) {
             this.currentStep++;
             navToStep(this.currentStep);
@@ -1255,10 +1505,8 @@
       }
     };
 
-    // Auto-evaluate Step 1 on load
     window.addEventListener('DOMContentLoaded', () => {
       evaluateStageProgress(1);
-      // Auto-start walkthrough
       setTimeout(() => {
         autoPlayer.init();
       }, 500);
