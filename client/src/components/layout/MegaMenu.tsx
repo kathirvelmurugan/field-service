@@ -73,6 +73,12 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
                 >
                   Enhancements Portfolio
                 </button>
+                <button
+                  onClick={() => onOpenModal('modal-birr')}
+                  className="block py-0.5 text-left text-indigo-700 font-semibold hover:underline"
+                >
+                  ★ DNV BIRR Certificate &amp; KPIs
+                </button>
               </div>
             </div>
           </div>
@@ -157,6 +163,12 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
           className="px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200 text-[11px] font-semibold flex items-center gap-1"
         >
           <span>⚖️</span> DoA Matrix
+        </button>
+        <button
+          onClick={() => onOpenModal('modal-birr')}
+          className="px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 text-[11px] font-semibold flex items-center gap-1"
+        >
+          <span>📜</span> DNV BIRR &amp; KPIs
         </button>
       </div>
     </nav>

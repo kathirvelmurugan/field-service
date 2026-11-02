@@ -8,3 +8,4 @@ export * from './oracle-billing/index.js';
 export * from './asset-taxonomy/index.js';
 export * from './qms-repair/index.js';
 export * from './doa-approval/index.js';
+export * from './reporting/index.js';

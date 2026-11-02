@@ -5,6 +5,7 @@ import { ApprovalsTable } from './components/approvals/ApprovalsTable';
 import { BladeCanvas } from './components/canvas/BladeCanvas';
 import { ScarfCalculator } from './components/qms/ScarfCalculator';
 import { TwinStreamRec } from './components/finance/TwinStreamRec';
+import { BirrModal } from './components/reporting/BirrModal';
 import { apiClient, TimeCardRecord } from './api/client';
 
 export const App: React.FC = () => {
@@ -274,6 +275,10 @@ export const App: React.FC = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {activeModal === 'modal-birr' && (
+        <BirrModal onClose={() => setActiveModal(null)} />
       )}
     </div>
   );

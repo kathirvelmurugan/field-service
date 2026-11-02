@@ -42,6 +42,11 @@ import {
   executeDoaSignOff 
 } from '../src/modules/doa-approval/index.js';
 
+import { 
+  calculateFleetKpis, 
+  generateBirrCertificate 
+} from '../src/modules/reporting/index.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -200,6 +205,44 @@ app.get('/api/portfolio/summary', (req: Request, res: Response) => {
     totalNeutralizedUsd: calculateNeutralizedPortfolioTotal(),
     workPackages: ENHANCEMENT_PORTFOLIO_NEUTRALIZED,
   });
+});
+
+// 8. Reporting & DNV-ST-0376 BIRR Certification (Stream 6 / Pillar 6)
+app.get('/api/reports/kpis', (req: Request, res: Response) => {
+  const kpis = calculateFleetKpis();
+  res.json(kpis);
+});
+
+app.post('/api/reports/birr/generate', (req: Request, res: Response) => {
+  const { 
+    workOrderId, 
+    turbineSerial, 
+    bladeSerial, 
+    defectLocationSpanM, 
+    defectDepthMm, 
+    leadTechnicianName, 
+    leadTechnicianCert, 
+    oemSiteLeadName, 
+    oemSiteLeadCert, 
+    resinBatchLot, 
+    lpsResistanceOhms 
+  } = req.body;
+
+  const certificate = generateBirrCertificate({
+    workOrderId,
+    turbineSerial,
+    bladeSerial,
+    defectLocationSpanM: defectLocationSpanM ? Number(defectLocationSpanM) : undefined,
+    defectDepthMm: defectDepthMm ? Number(defectDepthMm) : undefined,
+    leadTechnicianName,
+    leadTechnicianCert,
+    oemSiteLeadName,
+    oemSiteLeadCert,
+    resinBatchLot,
+    lpsResistanceOhms: lpsResistanceOhms ? Number(lpsResistanceOhms) : undefined,
+  });
+
+  res.json(certificate);
 });
 
 // Static Asset Delivery
