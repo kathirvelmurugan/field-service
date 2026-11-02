@@ -103,3 +103,10 @@ export function executeDoaSignOff(recordId: string, approverName: string): DoaAp
   record.timestamp = new Date().toISOString();
   return record;
 }
+
+export const DoaApprovalModule = {
+  thresholds: DOA_THRESHOLDS,
+  determineRequiredDoaTier,
+  records: SEEDED_DOA_RECORDS,
+  executeSignOff: executeDoaSignOff,
+};
