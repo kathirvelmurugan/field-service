@@ -160,3 +160,10 @@ export function generateOracleInvoicePayload(params: {
     lines
   };
 }
+
+export const OracleBillingModule = {
+  config: BILLING_CONFIG,
+  portfolio: ENHANCEMENT_PORTFOLIO_NEUTRALIZED,
+  generateInvoice: generateOracleInvoicePayload,
+  calculatePortfolioTotal: calculateNeutralizedPortfolioTotal,
+};
